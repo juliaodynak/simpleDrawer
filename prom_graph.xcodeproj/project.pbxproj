@@ -15,6 +15,7 @@
 		25A561EE1B9C760C000A5EBC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 25A561ED1B9C760C000A5EBC /* Images.xcassets */; };
 		25A561F11B9C760C000A5EBC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25A561EF1B9C760C000A5EBC /* LaunchScreen.xib */; };
 		25A561FD1B9C760C000A5EBC /* prom_graphTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A561FC1B9C760C000A5EBC /* prom_graphTests.m */; };
+		25A5620B1B9C8073000A5EBC /* MyCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5620A1B9C8073000A5EBC /* MyCanvas.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,8 @@
 		25A561F61B9C760C000A5EBC /* prom_graphTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = prom_graphTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		25A561FB1B9C760C000A5EBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25A561FC1B9C760C000A5EBC /* prom_graphTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = prom_graphTests.m; sourceTree = "<group>"; };
+		25A562091B9C8073000A5EBC /* MyCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCanvas.h; sourceTree = "<group>"; };
+		25A5620A1B9C8073000A5EBC /* MyCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCanvas.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +95,8 @@
 				25A561EF1B9C760C000A5EBC /* LaunchScreen.xib */,
 				25A561E41B9C760C000A5EBC /* prom_graph.xcdatamodeld */,
 				25A561DD1B9C760C000A5EBC /* Supporting Files */,
+				25A562091B9C8073000A5EBC /* MyCanvas.h */,
+				25A5620A1B9C8073000A5EBC /* MyCanvas.m */,
 			);
 			path = prom_graph;
 			sourceTree = "<group>";
@@ -226,6 +231,7 @@
 				25A561E01B9C760C000A5EBC /* main.m in Sources */,
 				25A561E91B9C760C000A5EBC /* ViewController.m in Sources */,
 				25A561E61B9C760C000A5EBC /* prom_graph.xcdatamodeld in Sources */,
+				25A5620B1B9C8073000A5EBC /* MyCanvas.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,7 +307,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -337,7 +343,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -350,6 +356,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = prom_graph/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -360,6 +367,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = prom_graph/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
