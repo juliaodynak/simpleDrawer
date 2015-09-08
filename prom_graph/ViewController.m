@@ -10,6 +10,7 @@
 #import "MyCanvas.h"
 
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *display;
 
 @end
 
