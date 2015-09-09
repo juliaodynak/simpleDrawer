@@ -8,33 +8,28 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, FigureType)
+typedef NS_ENUM(NSInteger, MCFigureType)
 {
-    Triangle = 1,
-    Circle = 2,
-    Square = 3,
-    Rhomb = 4,
-    Hexagon = 5,
-    Ellipse = 6,
-    Trapeze = 7,
-    Sinusoid = 8,
-    Smile  = 9
-    
+    MCFigureTypeTriangle,
+    MCFigureTypeCircle,
+    MCFigureTypeSquare,
+    MCFigureTypeRhomb,
+    MCFigureTypeHexagon,
+    MCFigureTypeEllipse,
+    MCFigureTypeTrapeze,
+    MCFigureTypeSinusoid,
+    MCFigureTypeSmile,
+    MCFigureTypeNAngles,
+    MCFigureTypeCount
 };
 
 @interface MyCanvas : UIView
 
-@property (nonatomic, assign) FigureType* selectedType;
 
--(void) initWithType :(FigureType) figure;
--(void) makeCircle:(CGRect)rect;
--(void) makeTriangle:(CGRect)rect;
--(void) makeEllipse: (CGRect) rect;
--(void) makeSquare: (CGRect) rect;
--(void) makeSinusoid: (CGRect) rect;
--(void) makeMeSmile: (CGRect) rect;
--(void) makeRhomb: (CGRect) rect;
--(void) makeTrapeze: (CGRect) rect;
--(void) makeYourChoise:(CGRect) rect:(FigureType) figure;
+
+- (instancetype)initWithType:(MCFigureType)typeOfFigure;
+- (instancetype)initWithType:(MCFigureType)typeOfFigure : (NSInteger) number;
+
+
 
 @end
