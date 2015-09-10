@@ -11,6 +11,9 @@
 @interface MyCanvas ()
 @property (nonatomic, assign) MCFigureType selectedType;
 @property (nonatomic, assign) NSInteger amount;
+@property (nonatomic, assign) NSInteger colorOfFigureFill;
+@property (nonatomic, assign) NSInteger colorOfFigureStroke;
+
 
 - (void)makeCircle:(CGRect)rect;
 - (void)makeTriangle:(CGRect)rect;
@@ -30,26 +33,32 @@
 @implementation MyCanvas
 @synthesize selectedType  = _selectedType;
 @synthesize amount = _amount;
+@synthesize colorOfFigureStroke = _colorOfFigureStroke;
+@synthesize colorOfFigureFill = _colorOfFigureFill;
 
 
-- (instancetype)initWithType:(MCFigureType)typeOfFigure
+- (instancetype)initWithType:(MCFigureType)typeOfFigure :(MCColorChoise) colorOfStroke :(MCColorChoise) colorOfFill
 {
     self = [super init];
     if (self)
     {
         self.selectedType = typeOfFigure;
+        self.colorOfFigureStroke = colorOfStroke;
+        self.colorOfFigureFill = colorOfFill;
         [self setBackgroundColor: [[UIColor clearColor] colorWithAlphaComponent: 0]];
     }
     return self;
 }
 
-- (instancetype)initWithType:(MCFigureType)typeOfFigure : (NSInteger) number
+- (instancetype)initWithType:(MCFigureType)typeOfFigure : (NSInteger) number :(MCColorChoise) colorOfStroke:(MCColorChoise) colorOfFill
 {
     self = [super init];
     if (self)
     {
         self.selectedType = typeOfFigure;
         self.amount = number;
+        self.colorOfFigureStroke = colorOfStroke;
+        self.colorOfFigureFill = colorOfFill;
         [self setBackgroundColor: [[UIColor clearColor] colorWithAlphaComponent: 0]];
     }
     return self;
@@ -93,7 +102,45 @@
 - (void) setColorOfPath
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetStrokeColorWithColor(context, [[UIColor purpleColor] CGColor]);
+   // CGContextSetStrokeColorWithColor(context, [[UIColor purpleColor] CGColor]);
+    switch (_colorOfFigureStroke) {
+        case 0:
+            CGContextSetStrokeColorWithColor(context, [[UIColor blueColor] CGColor]);
+            break;
+        case 1:
+            CGContextSetStrokeColorWithColor(context, [[UIColor yellowColor] CGColor]);
+            break;
+        case 2:
+            CGContextSetStrokeColorWithColor(context, [[UIColor greenColor] CGColor]);
+            break;
+        case 3:
+            CGContextSetStrokeColorWithColor(context, [[UIColor redColor] CGColor]);
+            break;
+        case 4:
+            CGContextSetStrokeColorWithColor(context, [[UIColor blackColor] CGColor]);
+            break;
+        case 5:
+            CGContextSetStrokeColorWithColor(context, [[UIColor brownColor] CGColor]);
+            break;
+        case 6:
+            CGContextSetStrokeColorWithColor(context, [[UIColor purpleColor] CGColor]);
+            break;
+        case 7:
+            CGContextSetStrokeColorWithColor(context, [[UIColor grayColor] CGColor]);
+            break;
+        case 8:
+            CGContextSetStrokeColorWithColor(context, [[UIColor orangeColor] CGColor]);
+            break;
+        case 9:
+            CGContextSetStrokeColorWithColor(context, [[UIColor cyanColor] CGColor]);
+            break;
+        case 10:
+            CGContextSetStrokeColorWithColor(context, [[UIColor clearColor] CGColor]);
+            break;
+        default:
+            break;
+    }
+
 
 }
 
@@ -101,6 +148,43 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, [[UIColor greenColor] CGColor]);
+    switch (_colorOfFigureFill) {
+        case 0:
+            CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
+            break;
+        case 1:
+            CGContextSetFillColorWithColor(context, [[UIColor yellowColor] CGColor]);
+            break;
+        case 2:
+            CGContextSetFillColorWithColor(context, [[UIColor greenColor] CGColor]);
+            break;
+        case 3:
+            CGContextSetFillColorWithColor(context, [[UIColor redColor] CGColor]);
+            break;
+        case 4:
+            CGContextSetFillColorWithColor(context, [[UIColor blackColor] CGColor]);
+            break;
+        case 5:
+            CGContextSetFillColorWithColor(context, [[UIColor brownColor] CGColor]);
+            break;
+        case 6:
+            CGContextSetFillColorWithColor(context, [[UIColor purpleColor] CGColor]);
+            break;
+        case 7:
+            CGContextSetFillColorWithColor(context, [[UIColor grayColor] CGColor]);
+            break;
+        case 8:
+            CGContextSetFillColorWithColor(context, [[UIColor orangeColor] CGColor]);
+            break;
+        case 9:
+            CGContextSetFillColorWithColor(context, [[UIColor cyanColor] CGColor]);
+            break;
+        case 10:
+            CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
+            break;
+        default:
+            break;
+    }
 }
 
 - (NSArray*)setPointsForNAngles:(CGRect)rect

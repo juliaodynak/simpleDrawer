@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, MCColorChoise)
     MCColorChoiseGreen,
     MCColorChoiseRed,
     MCColorChoiseBlack,
-    MCColorChoiseBlown,
+    MCColorChoiseBrown,
     MCColorChoisePurple,
     MCColorChoiseGray,
     MCColorChoiseOrange,
@@ -44,8 +44,8 @@ typedef NS_ENUM(NSInteger, MCColorChoise)
 
 
 
-- (instancetype)initWithType:(MCFigureType)typeOfFigure;
-- (instancetype)initWithType:(MCFigureType)typeOfFigure : (NSInteger) number;
+- (instancetype)initWithType:(MCFigureType)typeOfFigure:(MCColorChoise) colorOfStroke:(MCColorChoise) colorOfFill;
+- (instancetype)initWithType:(MCFigureType)typeOfFigure : (NSInteger) number : (MCColorChoise) colorOfStroke:(MCColorChoise) colorOfFill;
 
 
 
