@@ -23,6 +23,8 @@
 - (void)makeYourChoise:(CGRect) rect;
 - (void)makeNAngles: (CGRect) rect;
 - (NSArray*)setPointsForNAngles:(CGRect)rect;
+- (void) setColorOfPath;
+- (void) setColorOfFill;
 
 @end
 @implementation MyCanvas
@@ -56,6 +58,7 @@
 - (void)drawRect:(CGRect)rect
 {
     self.backgroundColor = [UIColor clearColor];
+    rect = CGRectInset(rect, rect.size.width/100*2, rect.size.height/100*2);
     [self makeYourChoise:rect];
 }
 
@@ -78,30 +81,42 @@
             CGContextSetRGBStrokeColor(context, 0, 255, 0, 1);
             CGContextAddLineToPoint (context, val.x, val.y);
         }
-    
+        
     }
     CGContextSetLineWidth(context, 2);
-    CGContextSetRGBStrokeColor(context, 20.0 /255, 101.0 / 255.0, 18.0 / 255.0, 1.0);
     CGContextClosePath(context);
-    CGContextStrokePath(context);
+    [self setColorOfFill];
+    [self setColorOfPath];
+    CGContextDrawPath(context, kCGPathEOFillStroke);
+}
+
+- (void) setColorOfPath
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetStrokeColorWithColor(context, [[UIColor purpleColor] CGColor]);
+
+}
+
+- (void) setColorOfFill
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [[UIColor greenColor] CGColor]);
 }
 
 - (NSArray*)setPointsForNAngles:(CGRect)rect
 {
     CGPoint center = CGPointMake(rect.size.width / 2.0, rect.size.height / 2.0);
-    float radius = 0.90 * center.x;
+        float radius = 0.90 * center.x;
     NSMutableArray *result = [NSMutableArray array];
-    float angle = (2.0 * M_PI) / _amount;
-    float exteriorAngle = M_PI - angle;
-    float rotationDelta = angle - (0.5 * exteriorAngle);
-    for (int currentAngle = 0; currentAngle < _amount; currentAngle++) {
-        float newAngle = (angle * currentAngle) - rotationDelta;
-        float curX = cos(newAngle) * radius;
-        float curY = sin(newAngle) * radius;
-        [result addObject:[NSValue valueWithCGPoint:CGPointMake(center.x + curX,
-                                                                center.y + curY)]];
-    }
-    return result;
+        float angle = (2.0 * M_PI) / _amount;
+        float exteriorAngle = M_PI - angle;
+        float rotationDelta = angle - (0.5 * exteriorAngle);
+        for (int currentAngle = 0; currentAngle < _amount; currentAngle++) {
+                float newAngle = (angle * currentAngle) - rotationDelta;
+                float curX = cos(newAngle) * radius;
+                float curY = sin(newAngle) * radius;
+                [result addObject:[NSValue valueWithCGPoint:CGPointMake(center.x + curX,center.y + curY)]];}
+        return result;
 }
 
 - (void)makeYourChoise:(CGRect) rect
@@ -121,7 +136,6 @@
             break;
         case 4:
             [self makeNAngles:rect];
-            //_amount = 6;
             break;
         case 5:
             [self makeEllipse:rect];
@@ -137,7 +151,6 @@
             break;
         case 9:
             [self makeNAngles:rect];
-           // _amount = 12;
             break;
         default:
             break;
@@ -147,57 +160,72 @@
 - (void)makeCircle:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 0, 255, 0, 1);
     CGContextSetLineWidth(context, 3.0);
+    
     CGRect circleRect = CGRectMake(3, 3, rect.size.width-6, rect.size.height-6);
+    [self setColorOfPath];
     CGContextStrokeEllipseInRect(context, circleRect);
+    [self setColorOfFill];
+    CGContextFillEllipseInRect(context, circleRect);
 }
 
 - (void)makeTriangle:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 0, 221, 221, 1);
+    CGContextBeginPath(context);
     CGPoint points[6] = {CGPointMake(rect.size.width/2, 26), CGPointMake(rect.size.width-6, rect.size.height-6),
         CGPointMake(rect.size.width-6, rect.size.height-6), CGPointMake(6, rect.size.height-6),
         CGPointMake(6, rect.size.height-6), CGPointMake(rect.size.width/2, 26)};
-    CGContextStrokeLineSegments(context, points, 6);
+    CGContextAddLines(context, points, 6);
+    CGContextClosePath(context);
+    [self setColorOfFill];
+    [self setColorOfPath];
+    CGContextDrawPath(context, kCGPathEOFillStroke);
+
 }
 
 - (void)makeEllipse: (CGRect) rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 255, 156, 0, 1);
     CGContextSetLineWidth(context, 3.0);
-    CGRect ellipseRect = CGRectMake(rect.size.width/4, 3, rect.size.width/2-6, rect.size.height-6);
-    CGContextStrokeEllipseInRect(context, ellipseRect);
     
+    CGRect ellipseRect = CGRectMake(rect.size.width/4, 3, rect.size.width/2-6, rect.size.height-6);
+     [self setColorOfPath];
+    CGContextStrokeEllipseInRect(context, ellipseRect);
+    [self setColorOfFill];
+    CGContextFillEllipseInRect(context, ellipseRect);
 }
 
 - (void)makeSquare: (CGRect) rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 128, 0, 50, 1);
     CGContextSetLineWidth(context, 3.0);
-    CGRect squareRect = CGRectMake(3, 3, rect.size.width-6, rect.size.height-6);
-    CGContextStrokeRect(context, squareRect);
+    int width = rect.size.width, hight = rect.size.height;
     
+    CGContextBeginPath(context);
+    CGPoint points[4] = {CGPointMake(rect.origin.x, rect.origin.y), CGPointMake(width, rect.origin.y), CGPointMake(width, hight), CGPointMake(rect.origin.x, hight)};
+    CGContextAddLines(context, points, 4);
+    CGContextClosePath(context);
+    [self setColorOfFill];
+    [self setColorOfPath];
+    CGContextDrawPath(context, kCGPathEOFillStroke);
 }
 
 - (void)makeSinusoid: (CGRect) rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 128, 0, 50, 1);
     CGContextSetLineWidth(context, 3.0);
-    
-
     int y;
+    
     for(int x=rect.origin.x; x < rect.size.width; x++)
     {
         y = ((rect.size.height/2) * sin(((x*4) % 360) * M_PI/180)) + rect.size.height/2;
-        if (x == 0) CGContextMoveToPoint(context, x, y);
+        if (x <= rect.origin.x) CGContextMoveToPoint(context, x, y);
         else CGContextAddLineToPoint(context, x, y);
     }
-    CGContextStrokePath(context);
+    [self setColorOfFill];
+    [self setColorOfPath];
+    CGContextDrawPath(context, kCGPathEOFillStroke);
 }
 
 - (void)makeMeSmile: (CGRect) rect
@@ -206,7 +234,7 @@
     CGFloat height = rect.size.height-rect.size.height/100*3;
     
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 0, 255, 255, 1);
+    [self setColorOfPath];
     CGContextSetLineWidth(context, 3.0);
     CGRect circleRect = CGRectMake(3, 3, width, height);
     CGContextStrokeEllipseInRect(context, circleRect);
@@ -214,13 +242,11 @@
     CGRect eye1Rect = CGRectMake(width/3, height/3, width/10, height/10);
     CGContextStrokeEllipseInRect(context, eye1Rect);
     CGRect ellipse1Rect = CGRectMake(width/3+width/100*4, height/3, width/40, height/10);
-    CGContextSetRGBFillColor(context, 0, 255, 255, 1);
     CGContextFillEllipseInRect(context, ellipse1Rect);
     
     CGRect eye2Rect = CGRectMake((width/3)*2, height/3, width/10, height/10);
     CGContextStrokeEllipseInRect(context, eye2Rect);
     CGRect ellipse2Rect = CGRectMake((width/3)*2+width/100*4, height/3, width/40, height/10);
-    CGContextSetRGBFillColor(context, 0, 255, 255, 1);
     CGContextFillEllipseInRect(context, ellipse2Rect);
     
     CGPoint bezierStart = {rect.size.width/3, rect.size.height-rect.size.height/3};
@@ -239,7 +265,6 @@
 - (void)makeRhomb: (CGRect) rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 0, 255, 255, 1);
     CGContextSetLineWidth(context, 3.0);
     
     CGContextMoveToPoint(context, rect.size.width/2, 2);
@@ -247,32 +272,24 @@
     CGContextAddLineToPoint(context, rect.size.width/2, rect.size.height);
     CGContextAddLineToPoint(context, 50, rect.size.height/2);
     CGContextClosePath(context);
-    CGContextDrawPath(context, kCGPathFillStroke);
+    [self setColorOfFill];
+    [self setColorOfPath];
+    CGContextDrawPath(context, kCGPathEOFillStroke);
 }
 
 - (void)makeTrapeze: (CGRect) rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetRGBStrokeColor(context, 0, 255, 255, 1);
     CGContextSetLineWidth(context, 3.0);
     int width = rect.size.width, hight = rect.size.height;
     CGContextBeginPath(context);
     CGPoint points[4] = {CGPointMake(0+width/3, 0), CGPointMake(width-width/3, 0), CGPointMake(width, hight), CGPointMake(0, hight)};
-    
-   // CGContextMoveToPoint(context, points[0].x, points[0].y);
-   // CGContextAddLineToPoint(context, points[1].x, points[1].y);
-    //CGContextAddLineToPoint(context, points[2].x, points[2].y);
-   // CGContextAddLineToPoint(context, points[3].x, points[3].y);
     CGContextAddLines(context, points, 4);
     CGContextClosePath(context);
-    CGContextStrokePath(context);
-   // CGContextStrokeLineSegments(context, points, 4);
-//    CGContextMoveToPoint(context, 60, rect.size.height/10);
-//    CGContextAddLineToPoint(context, rect.size.width-60, rect.size.height/10);
-//    CGContextAddLineToPoint(context, rect.size.width-3, rect.size.height-5);
-//    CGContextAddLineToPoint(context, 3, rect.size.height-5);
-//    CGContextClosePath(context);
-//    CGContextDrawPath(context, kCGPathFillStroke);
+    [self setColorOfFill];
+    [self setColorOfPath];
+    CGContextDrawPath(context, kCGPathEOFillStroke);
+
 }
 
 

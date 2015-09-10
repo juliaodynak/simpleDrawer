@@ -23,6 +23,23 @@ typedef NS_ENUM(NSInteger, MCFigureType)
     MCFigureTypeCount
 };
 
+typedef NS_ENUM(NSInteger, MCColorChoise)
+{
+    MCColorChoiseBlue,
+    MCColorChoiseYellow,
+    MCColorChoiseGreen,
+    MCColorChoiseRed,
+    MCColorChoiseBlack,
+    MCColorChoiseBlown,
+    MCColorChoisePurple,
+    MCColorChoiseGray,
+    MCColorChoiseOrange,
+    MCColorChoiseCyan,
+    MCColorChoiseClear,
+    MCColorChoiseCount
+    
+};
+
 @interface MyCanvas : UIView
 
 
