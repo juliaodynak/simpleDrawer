@@ -50,7 +50,7 @@
     return self;
 }
 
-- (instancetype)initWithType:(MCFigureType)typeOfFigure : (NSInteger) number :(MCColorChoise) colorOfStroke:(MCColorChoise) colorOfFill
+- (instancetype)initWithType:(MCFigureType)typeOfFigure :(NSInteger) number :(MCColorChoise)colorOfStroke :(MCColorChoise) colorOfFill
 {
     self = [super init];
     if (self)
