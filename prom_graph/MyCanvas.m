@@ -13,6 +13,7 @@
 @property (nonatomic, assign) NSInteger amount;
 @property (nonatomic, assign) NSInteger colorOfFigureFill;
 @property (nonatomic, assign) NSInteger colorOfFigureStroke;
+@property (nonatomic, assign) CGFloat originSize;
 
 
 - (void)makeCircle:(CGRect)rect;
@@ -35,6 +36,7 @@
 @synthesize amount = _amount;
 @synthesize colorOfFigureStroke = _colorOfFigureStroke;
 @synthesize colorOfFigureFill = _colorOfFigureFill;
+@synthesize originSize = _originSize;
 
 
 - (instancetype)initWithType:(MCFigureType)typeOfFigure :(MCColorChoise) colorOfStroke :(MCColorChoise) colorOfFill
@@ -47,6 +49,16 @@
         self.colorOfFigureFill = colorOfFill;
         [self setBackgroundColor: [[UIColor clearColor] colorWithAlphaComponent: 0]];
     }
+    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipes:)];
+    swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    //swipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+    swipeRecognizer.numberOfTouchesRequired = 1;
+    [self addGestureRecognizer:swipeRecognizer];
+    
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    panRecognizer.minimumNumberOfTouches = 1;
+    panRecognizer.maximumNumberOfTouches = 1;
+    [self addGestureRecognizer:panRecognizer];
     return self;
 }
 
@@ -61,9 +73,45 @@
         self.colorOfFigureFill = colorOfFill;
         [self setBackgroundColor: [[UIColor clearColor] colorWithAlphaComponent: 0]];
     }
+    
+    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipes:)];
+    swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+    swipeRecognizer.numberOfTouchesRequired = 1;
+    [self addGestureRecognizer:swipeRecognizer];
+    
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
+    panRecognizer.minimumNumberOfTouches = 1;
+    panRecognizer.maximumNumberOfTouches = 1;
+    [self addGestureRecognizer:panRecognizer];
     return self;
 }
 
+- (void)handleSwipes:(UISwipeGestureRecognizer*)paramsender
+{
+        [self removeFromSuperview];
+}
+
+- (void)handlePan:(UIPanGestureRecognizer*)paramsender
+{
+    if(paramsender.state == UIGestureRecognizerStateBegan)
+    {
+        _originSize = self.frame.size.width;
+        CGFloat figureSize = 50 + self.frame.size.width;
+        CGRect figureFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y,
+                                        figureSize, figureSize);
+        self.frame = figureFrame;
+    }
+    if(paramsender.state == UIGestureRecognizerStateEnded)
+    {
+        CGPoint location = [paramsender locationInView:paramsender.view];
+        CGRect figureFrame = CGRectMake(location.x, location.y,
+                                        _originSize, _originSize);
+        self.frame = figureFrame;
+        CGPoint translation = [paramsender translationInView:paramsender.view];
+        paramsender.view.center = CGPointMake(paramsender.view.center.x + translation.x, paramsender.view.center.y + translation.y);
+        [paramsender setTranslation:CGPointZero inView:self.superview];
+    }
+}
 - (void)drawRect:(CGRect)rect
 {
     self.backgroundColor = [UIColor clearColor];
@@ -102,7 +150,6 @@
 - (void) setColorOfPath
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-   // CGContextSetStrokeColorWithColor(context, [[UIColor purpleColor] CGColor]);
     switch (_colorOfFigureStroke) {
         case 0:
             CGContextSetStrokeColorWithColor(context, [[UIColor blueColor] CGColor]);
@@ -147,7 +194,7 @@
 - (void) setColorOfFill
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [[UIColor greenColor] CGColor]);
+   // CGContextSetFillColorWithColor(context, [[UIColor greenColor] CGColor]);
     switch (_colorOfFigureFill) {
         case 0:
             CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);

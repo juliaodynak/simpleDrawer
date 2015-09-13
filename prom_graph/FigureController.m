@@ -9,6 +9,7 @@
 #import "FigureController.h"
 #import "MyCanvas.h"
 
+
 static NSInteger const kNumberOfFigures = 10;
 
 @interface FigureController ()
@@ -28,8 +29,34 @@ static NSInteger const kNumberOfFigures = 10;
 {
     [super viewDidLoad];
     [self createFigures];
-    _figures = [[NSMutableArray alloc] init];
+    
+    //UIImageView.userInteractionEnabled = YES;
+//    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipes:)];
+//    swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+//    swipeRecognizer.numberOfTouchesRequired = 1;
+//    [self.view addGestureRecognizer:swipeRecognizer];
 }
+
+//- (void)handleSwipes:(UISwipeGestureRecognizer*)paramsender 
+//{
+//    
+//    if (paramsender.direction & UISwipeGestureRecognizerDirectionLeft)
+//    {
+//        NSLog(@"SwipedLeft.");
+//        //CGPoint location = [paramsender locationInView:self.view];
+////        if (CGRectContainsPoint([obj frame], location))
+////        {
+////            CGSize size = self.view.frame.size;
+////            CGFloat figureSize = 50 ;
+////
+////            CGRect figureFrame = CGRectMake(location.x,
+////                                             location.y,
+////                                            figureSize, figureSize);
+////            obj.frame = figureFrame;
+////        }
+//        
+//    }
+//}
 
 - (void)createFigures
 {
