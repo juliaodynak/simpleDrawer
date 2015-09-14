@@ -17,6 +17,10 @@ static NSInteger const kNumberOfFigures = 10;
 @property (weak, nonatomic) IBOutlet UILabel *display;
 @property (nonatomic, strong)  NSMutableArray *figures;
 @property (nonatomic, assign) NSInteger counter;
+@property (nonatomic, assign) CGFloat originSize;
+@property (nonatomic, assign) CGFloat firstX;
+@property (nonatomic, assign) CGFloat firstY;
+@property (nonatomic, strong) UIView *contView;
 
 @end
 
@@ -30,33 +34,78 @@ static NSInteger const kNumberOfFigures = 10;
     [super viewDidLoad];
     [self createFigures];
     
-    //UIImageView.userInteractionEnabled = YES;
-//    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipes:)];
-//    swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-//    swipeRecognizer.numberOfTouchesRequired = 1;
-//    [self.view addGestureRecognizer:swipeRecognizer];
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
+    panRecognizer.minimumNumberOfTouches = 1;
+    panRecognizer.maximumNumberOfTouches = 1;
+    [self.view addGestureRecognizer:panRecognizer];
+    
+    
 }
 
-//- (void)handleSwipes:(UISwipeGestureRecognizer*)paramsender 
-//{
-//    
-//    if (paramsender.direction & UISwipeGestureRecognizerDirectionLeft)
-//    {
-//        NSLog(@"SwipedLeft.");
-//        //CGPoint location = [paramsender locationInView:self.view];
-////        if (CGRectContainsPoint([obj frame], location))
-////        {
-////            CGSize size = self.view.frame.size;
-////            CGFloat figureSize = 50 ;
-////
-////            CGRect figureFrame = CGRectMake(location.x,
-////                                             location.y,
-////                                            figureSize, figureSize);
-////            obj.frame = figureFrame;
-////        }
-//        
-//    }
-//}
+- (void)handlePan:(UIPanGestureRecognizer*)paramsender
+{
+    if (paramsender.state == UIGestureRecognizerStateBegan)
+    {
+        CGPoint location = [paramsender locationInView:paramsender.view];
+        for(int i=0; i<self.figures.count;i++)
+        {
+            if(CGRectContainsPoint([self.figures[i] frame], location))
+            {
+                self.contView = self.figures[i];
+                self.originSize  = self.contView.frame.size.width;
+                
+//                [UIView animateWithDuration:0.1 animations:^{
+//                    self.contView.transform = CGAffineTransformMakeScale(1.1f, 1.1f);
+//                }];
+                
+                break;
+            }
+        }
+    }
+    
+    if (paramsender.state == UIGestureRecognizerStateChanged)
+    {
+        CGPoint center = self.contView.center;
+        CGPoint translation = [paramsender translationInView:self.view];
+        
+        center.x += translation.x;
+        center.y += translation.y;
+        
+        self.contView.center = center;
+        
+        [paramsender setTranslation:CGPointZero inView:self.view];
+    }
+    
+    if( paramsender.state == UIGestureRecognizerStateEnded)
+    {
+        [UIView animateWithDuration:0.1 animations:^{
+            self.contView.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            self.contView = nil;
+            
+        }];
+    }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesBegan:touches withEvent:event];
+    
+    CGPoint location = [touches.anyObject locationInView:self.view];
+    for(int i=0; i<self.figures.count;i++)
+    {
+        if(CGRectContainsPoint([self.figures[i] frame], location))
+        {
+            self.contView = self.figures[i];
+            [UIView animateWithDuration:0.1 animations:^{
+                self.contView.transform = CGAffineTransformMakeScale(1.1f, 1.1f);
+            }];
+        }
+    }
+
+    
+}
+
 
 - (void)createFigures
 {
