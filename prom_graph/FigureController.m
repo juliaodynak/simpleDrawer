@@ -20,7 +20,7 @@ static NSInteger const kNumberOfFigures = 10;
 @property (nonatomic, assign) CGFloat originSize;
 @property (nonatomic, assign) CGFloat firstX;
 @property (nonatomic, assign) CGFloat firstY;
-@property (nonatomic, strong) UIView *contView;
+@property (nonatomic, strong) MyCanvas *contView;
 
 @end
 
@@ -32,6 +32,7 @@ static NSInteger const kNumberOfFigures = 10;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //self.figures = [[NSMutableArray alloc] init];
     [self createFigures];
     
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
@@ -53,11 +54,6 @@ static NSInteger const kNumberOfFigures = 10;
             {
                 self.contView = self.figures[i];
                 self.originSize  = self.contView.frame.size.width;
-                
-//                [UIView animateWithDuration:0.1 animations:^{
-//                    self.contView.transform = CGAffineTransformMakeScale(1.1f, 1.1f);
-//                }];
-                
                 break;
             }
         }
@@ -80,10 +76,36 @@ static NSInteger const kNumberOfFigures = 10;
     {
         [UIView animateWithDuration:0.1 animations:^{
             self.contView.transform = CGAffineTransformIdentity;
-        } completion:^(BOOL finished) {
+        } /*completion:^(BOOL finished) {
             self.contView = nil;
-            
-        }];
+        }*/];
+        for(int i=0; i<_figures.count;i++)
+        {
+            if(CGRectIntersectsRect(self.contView.frame, [_figures[i] frame]) && self.contView != self.figures[i])
+            {
+                if ([self.contView selectedType] == [self.figures[i] selectedType])
+                {
+                    [self.contView removeFromSuperview];
+                    [self.figures[i] removeFromSuperview];
+                    [self.figures removeObjectAtIndex:i];
+                    for(int j=0;j<self.figures.count;j++)
+                    {
+                        if (self.figures[j]==self.contView)
+                        {
+                            [self.figures removeObjectAtIndex:j];
+                            break;
+                        }
+                    }
+                }
+                
+                else
+                {
+                    [self placeFigure];
+                }
+                
+            }
+        }
+
     }
 }
 
@@ -106,12 +128,24 @@ static NSInteger const kNumberOfFigures = 10;
     
 }
 
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesEnded:touches withEvent:event];
+    //[self.view delete: self.contView];
+    [UIView animateWithDuration:0.1 animations:^{
+        self.contView.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        self.contView = nil;
+        
+    }];
+    
+}
 
 - (void)createFigures
 {
     _figures = [[NSMutableArray alloc] init];
     _counter = 0;
-    while (_counter != kNumberOfFigures)
+    for (int i = 0; i < kNumberOfFigures; ++i)
     {
         [self placeFigure];
         
@@ -121,12 +155,13 @@ static NSInteger const kNumberOfFigures = 10;
 
 - (void)placeFigure
 {
-    NSInteger type = ((float)rand() / (float)RAND_MAX) * MCFigureTypeCount;
-    NSInteger colorStroke = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
-    NSInteger colorFill = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
-    MyCanvas *ob;
-   
-    
+
+        NSInteger type = ((float)rand() / (float)RAND_MAX) * MCFigureTypeCount;
+        NSInteger colorStroke = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
+        NSInteger colorFill = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
+        MyCanvas *ob;
+        
+        
         if (type!=4 && type!=9)
         {
             ob = [[MyCanvas alloc] initWithType: type:colorStroke: colorFill];
@@ -142,28 +177,32 @@ static NSInteger const kNumberOfFigures = 10;
         CGSize size = self.view.frame.size;
         CGFloat figureSize = 50 + ((float)rand() / (float)RAND_MAX);
         
-        CGRect figureFrame = CGRectMake(((float)rand() / (float)RAND_MAX) * (size.width - figureSize),
-                                        ((float)rand() / (float)RAND_MAX) * (size.height - figureSize),
-                                        figureSize, figureSize);
-        
-        ob.frame = figureFrame;
-        if(_figures.count==0)
+        CGRect figureFrame = CGRectZero;
+        for (int j = 0; j < 1000; ++j)
         {
-            [self.figures insertObject:ob atIndex:0];
-        }
-        for(int i=0; i<_figures.count;i++)
-        {
-            if(CGRectIntersectsRect(figureFrame, [_figures[i] frame]))
+            figureFrame = CGRectMake(((float)rand() / (float)RAND_MAX) * (size.width - figureSize),
+                                     ((float)rand() / (float)RAND_MAX) * (size.height - figureSize),
+                                     figureSize, figureSize);
+            
+            
+            BOOL intersects = NO;
+            for (MyCanvas* figure in self.figures)
+            {
+                if (CGRectIntersectsRect(figureFrame, [figure frame]))
+                {
+                    intersects = YES;
+                    break;
+                }
+            }
+            
+            if (!intersects)
             {
                 break;
             }
-            else if(i==_figures.count-1)
-            {
-                [_figures addObject:ob];
-                [self.view addSubview:ob];
-                _counter++;
-            }
         }
+        ob.frame = figureFrame;
+        [self.figures addObject:ob];
+        [self.view addSubview:ob];
 }
 
 @end

@@ -9,7 +9,7 @@
 #import "MyCanvas.h"
 
 @interface MyCanvas ()
-@property (nonatomic, assign) MCFigureType selectedType;
+//@property (nonatomic, assign) MCFigureType selectedType;
 @property (nonatomic, assign) NSInteger amount;
 @property (nonatomic, assign) NSInteger colorOfFigureFill;
 @property (nonatomic, assign) NSInteger colorOfFigureStroke;
