@@ -21,6 +21,9 @@ static NSInteger const kNumberOfFigures = 10;
 @property (nonatomic, assign) CGFloat firstX;
 @property (nonatomic, assign) CGFloat firstY;
 @property (nonatomic, strong) MyCanvas *contView;
+@property (nonatomic, strong) MyCanvas *chosenView;
+@property (nonatomic, assign) float distance;
+@property (nonatomic, strong) MyCanvas *viewToCompare;
 
 @end
 
@@ -32,8 +35,8 @@ static NSInteger const kNumberOfFigures = 10;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //self.figures = [[NSMutableArray alloc] init];
     [self createFigures];
+    self.distance = 1000000.0;
     
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
     panRecognizer.minimumNumberOfTouches = 1;
@@ -70,6 +73,18 @@ static NSInteger const kNumberOfFigures = 10;
         self.contView.center = center;
         
         [paramsender setTranslation:CGPointZero inView:self.view];
+        
+        for(int i=0; i<self.figures.count;i++)
+        {
+            self.viewToCompare = self.figures[i];
+            self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+            self.viewToCompare.layer.shadowOpacity = 0.0f;
+            if(CGRectIntersectsRect(self.contView.frame, [self.figures[i] frame]) && self.contView != self.figures[i])
+            {
+                self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+                self.viewToCompare.layer.shadowOpacity = 0.5f;
+            }
+        }
     }
     
     if( paramsender.state == UIGestureRecognizerStateEnded)
@@ -79,33 +94,52 @@ static NSInteger const kNumberOfFigures = 10;
         } /*completion:^(BOOL finished) {
             self.contView = nil;
         }*/];
-        for(int i=0; i<_figures.count;i++)
+        for(int i=0; i<self.figures.count;i++)
         {
-            if(CGRectIntersectsRect(self.contView.frame, [_figures[i] frame]) && self.contView != self.figures[i])
+            if(CGRectIntersectsRect(self.contView.frame, [self.figures[i] frame]) && self.contView != self.figures[i])
             {
-                if ([self.contView selectedType] == [self.figures[i] selectedType])
+                self.viewToCompare = self.figures[i];
+                CGPoint center = self.contView.center;
+                CGPoint currentFigureCenter = self.viewToCompare.center;
+
+                CGFloat xDist = (center.x - currentFigureCenter.x);
+                CGFloat yDist = (center.y - currentFigureCenter.y);
+                CGFloat currentDistance = sqrt((xDist * xDist) + (yDist * yDist));
+                if(self.distance > currentDistance)
                 {
-                    [self.contView removeFromSuperview];
-                    [self.figures[i] removeFromSuperview];
-                    [self.figures removeObjectAtIndex:i];
-                    for(int j=0;j<self.figures.count;j++)
-                    {
-                        if (self.figures[j]==self.contView)
-                        {
-                            [self.figures removeObjectAtIndex:j];
-                            break;
-                        }
-                    }
+                    self.distance = currentDistance;
+                    self.chosenView = self.figures[i];
                 }
-                
-                else
-                {
-                    [self placeFigure];
-                }
-                
             }
         }
 
+        if ([self.contView selectedType] == [self.chosenView selectedType]&& self.chosenView!=nil && self.contView!=nil)
+        {
+            [self.contView removeFromSuperview];
+            [self.chosenView removeFromSuperview];
+
+            for(int j=0;j<self.figures.count;j++)
+            {
+                if ([self.figures[j] isEqual: self.contView] || [self.figures[j] isEqual: self.chosenView])
+                {
+                    [self.figures removeObjectAtIndex:j];
+                }
+            }
+            self.contView = nil;
+            self.chosenView = nil;
+            self.viewToCompare =nil;
+            self.distance = 1000000.0;
+    
+        }
+        
+        else if ([self.contView selectedType] != [self.chosenView selectedType] && self.chosenView!=nil && self.contView!=nil)
+        {
+            [self placeFigure];
+            self.contView = nil;
+            self.chosenView = nil;
+            self.viewToCompare = nil;
+            self.distance = 1000000.0;
+        }
     }
 }
 
@@ -124,21 +158,17 @@ static NSInteger const kNumberOfFigures = 10;
             }];
         }
     }
-
-    
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesEnded:touches withEvent:event];
-    //[self.view delete: self.contView];
     [UIView animateWithDuration:0.1 animations:^{
         self.contView.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
         self.contView = nil;
         
     }];
-    
 }
 
 - (void)createFigures
@@ -150,7 +180,6 @@ static NSInteger const kNumberOfFigures = 10;
         [self placeFigure];
         
     }
-    
 }
 
 - (void)placeFigure
@@ -160,19 +189,18 @@ static NSInteger const kNumberOfFigures = 10;
         NSInteger colorStroke = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
         NSInteger colorFill = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
         MyCanvas *ob;
-        
-        
+    
         if (type!=4 && type!=9)
         {
             ob = [[MyCanvas alloc] initWithType: type:colorStroke: colorFill];
         }
         if (type == 4)
         {
-            ob = [[MyCanvas alloc] initWithType: MCFigureTypeNAngles: colorStroke: colorFill: 6];
+            ob = [[MyCanvas alloc] initWithType: MCFigureTypeNAngles: 6: colorStroke: colorFill];
         }
         if (type == 9)
         {
-            ob = [[MyCanvas alloc] initWithType:MCFigureTypeNAngles:colorStroke: colorFill: 12];
+            ob = [[MyCanvas alloc] initWithType:MCFigureTypeNAngles: 12: colorStroke: colorFill];
         }
         CGSize size = self.view.frame.size;
         CGFloat figureSize = 50 + ((float)rand() / (float)RAND_MAX);
