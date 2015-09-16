@@ -14,7 +14,6 @@ static NSInteger const kNumberOfFigures = 10;
 
 @interface FigureController ()
 
-@property (weak, nonatomic) IBOutlet UILabel *display;
 @property (nonatomic, strong)  NSMutableArray *figures;
 @property (nonatomic, assign) NSInteger counter;
 @property (nonatomic, assign) CGFloat originSize;
@@ -24,6 +23,8 @@ static NSInteger const kNumberOfFigures = 10;
 @property (nonatomic, strong) MyCanvas *chosenView;
 @property (nonatomic, assign) float distance;
 @property (nonatomic, strong) MyCanvas *viewToCompare;
+
+@property (nonatomic, strong) NSTimer *timer;
 
 @end
 
@@ -43,7 +44,28 @@ static NSInteger const kNumberOfFigures = 10;
     panRecognizer.maximumNumberOfTouches = 1;
     [self.view addGestureRecognizer:panRecognizer];
     
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFire) userInfo:nil repeats:YES];
+}
+
+- (void)timerFire
+{
+    CGFloat distance = 20.0f;
     
+    __weak typeof(MyCanvas) *weakView = self.contView;
+    [UIView animateWithDuration:0.1 animations:^{
+        
+        for (MyCanvas* figure in self.figures)
+        {
+            if (weakView == nil || (weakView && ![figure isEqual:weakView]))
+            {
+                CGFloat diffX = ((float)rand() / (float)RAND_MAX) * distance - distance / 2.0f;
+                CGFloat diffY = ((float)rand() / (float)RAND_MAX) * distance - distance / 2.0f;
+                
+                figure.center = CGPointMake(figure.center.x + diffX, figure.center.y + diffY);
+            }
+        }
+        
+    }];
 }
 
 - (void)handlePan:(UIPanGestureRecognizer*)paramsender
@@ -74,11 +96,17 @@ static NSInteger const kNumberOfFigures = 10;
         
         [paramsender setTranslation:CGPointZero inView:self.view];
         
+        self.contView.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+        self.contView.layer.shadowOpacity = 0.5f;
+        
         for(int i=0; i<self.figures.count;i++)
         {
-            self.viewToCompare = self.figures[i];
-            self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-            self.viewToCompare.layer.shadowOpacity = 0.0f;
+            if (![self.figures[i] isEqual:self.contView]) {
+                self.viewToCompare = self.figures[i];
+                self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+                self.viewToCompare.layer.shadowOpacity = 0.0f;
+            }
+            
             if(CGRectIntersectsRect(self.contView.frame, [self.figures[i] frame]) && self.contView != self.figures[i])
             {
                 self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
@@ -94,11 +122,20 @@ static NSInteger const kNumberOfFigures = 10;
         } /*completion:^(BOOL finished) {
             self.contView = nil;
         }*/];
+        
+        self.contView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+        self.contView.layer.shadowOpacity = 0.0f;
+        
         for(int i=0; i<self.figures.count;i++)
         {
             if(CGRectIntersectsRect(self.contView.frame, [self.figures[i] frame]) && self.contView != self.figures[i])
             {
                 self.viewToCompare = self.figures[i];
+                self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+                self.viewToCompare.layer.shadowOpacity = 0.0f;
+                self.contView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+                self.contView.layer.shadowOpacity = 0.0f;
+                
                 CGPoint center = self.contView.center;
                 CGPoint currentFigureCenter = self.viewToCompare.center;
 
@@ -125,21 +162,33 @@ static NSInteger const kNumberOfFigures = 10;
                     [self.figures removeObjectAtIndex:j];
                 }
             }
-            self.contView = nil;
-            self.chosenView = nil;
-            self.viewToCompare =nil;
-            self.distance = 1000000.0;
+            [self makeNill];
     
         }
         
         else if ([self.contView selectedType] != [self.chosenView selectedType] && self.chosenView!=nil && self.contView!=nil)
         {
             [self placeFigure];
-            self.contView = nil;
-            self.chosenView = nil;
-            self.viewToCompare = nil;
-            self.distance = 1000000.0;
+            self.contView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+            self.contView.layer.shadowOpacity = 0.0f;
+            
+            self.chosenView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+            self.chosenView.layer.shadowOpacity = 0.0f;
+            
+            [self makeNill];
         }
+        [self makeNill];
+    }
+    
+    if( paramsender.state == UIGestureRecognizerStateCancelled)
+    {
+        self.contView.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+        self.contView.layer.shadowOpacity = 0.5f;
+        [self makeNill];
+    }
+    if(paramsender.state == UIGestureRecognizerStateFailed)
+    {
+        [self makeNill];
     }
 }
 
@@ -148,7 +197,7 @@ static NSInteger const kNumberOfFigures = 10;
     [super touchesBegan:touches withEvent:event];
     
     CGPoint location = [touches.anyObject locationInView:self.view];
-    for(int i=0; i<self.figures.count;i++)
+    for(int i = 0; i < self.figures.count; i++)
     {
         if(CGRectContainsPoint([self.figures[i] frame], location))
         {
@@ -158,17 +207,33 @@ static NSInteger const kNumberOfFigures = 10;
             }];
         }
     }
+    
+    [self.view bringSubviewToFront:self.contView];
+    self.contView.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+    self.contView.layer.shadowOpacity = 0.5f;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [super touchesEnded:touches withEvent:event];
+    
+    self.contView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+    self.contView.layer.shadowOpacity = 0.0f;
+    
     [UIView animateWithDuration:0.1 animations:^{
         self.contView.transform = CGAffineTransformIdentity;
     } completion:^(BOOL finished) {
         self.contView = nil;
         
     }];
+}
+
+- (void) makeNill
+{
+    self.contView = nil;
+    self.chosenView = nil;
+    self.viewToCompare = nil;
+    self.distance = 1000000.0;
 }
 
 - (void)createFigures
@@ -229,6 +294,7 @@ static NSInteger const kNumberOfFigures = 10;
             }
         }
         ob.frame = figureFrame;
+    ob.userInteractionEnabled = NO;
         [self.figures addObject:ob];
         [self.view addSubview:ob];
 }
