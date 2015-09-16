@@ -15,7 +15,7 @@ static NSInteger const kNumberOfFigures = 10;
 @interface FigureController ()
 
 @property (nonatomic, strong)  NSMutableArray *figures;
-@property (nonatomic, assign) NSInteger counter;
+//@property (nonatomic, assign) NSInteger counter;
 @property (nonatomic, assign) CGFloat originSize;
 @property (nonatomic, assign) CGFloat firstX;
 @property (nonatomic, assign) CGFloat firstY;
@@ -50,6 +50,9 @@ static NSInteger const kNumberOfFigures = 10;
 - (void)timerFire
 {
     CGFloat distance = 20.0f;
+    CGFloat viewHeight = self.view.frame.size.height - 30;
+    CGFloat viewWidth = self.view.frame.size.width - 30;
+    CACurrentMediaTime();
     
     __weak typeof(MyCanvas) *weakView = self.contView;
     [UIView animateWithDuration:0.1 animations:^{
@@ -60,7 +63,35 @@ static NSInteger const kNumberOfFigures = 10;
             {
                 CGFloat diffX = ((float)rand() / (float)RAND_MAX) * distance - distance / 2.0f;
                 CGFloat diffY = ((float)rand() / (float)RAND_MAX) * distance - distance / 2.0f;
-                
+
+                if(figure.center.x >= viewWidth)
+                {
+                    if(diffX > 0)
+                    {
+                        diffX *= -1;
+                    }
+                }
+                if(figure.center.x <= 50)
+                {
+                    if(diffX < 0)
+                    {
+                        diffX *= -1;
+                    }
+                }
+                if(figure.center.y >= viewHeight)
+                {
+                    if(diffY > 0)
+                    {
+                        diffY *= -1;
+                    }
+                }
+                if(figure.center.y <= 50)
+                {
+                    if(diffY < 0)
+                    {
+                        diffY *= -1;
+                    }
+                }
                 figure.center = CGPointMake(figure.center.x + diffX, figure.center.y + diffY);
             }
         }
@@ -155,7 +186,7 @@ static NSInteger const kNumberOfFigures = 10;
             [self.contView removeFromSuperview];
             [self.chosenView removeFromSuperview];
 
-            for(int j=0;j<self.figures.count;j++)
+            for(int j = 0;j < self.figures.count; j++)
             {
                 if ([self.figures[j] isEqual: self.contView] || [self.figures[j] isEqual: self.chosenView])
                 {
@@ -186,6 +217,7 @@ static NSInteger const kNumberOfFigures = 10;
         self.contView.layer.shadowOpacity = 0.5f;
         [self makeNill];
     }
+    
     if(paramsender.state == UIGestureRecognizerStateFailed)
     {
         [self makeNill];
@@ -238,8 +270,8 @@ static NSInteger const kNumberOfFigures = 10;
 
 - (void)createFigures
 {
-    _figures = [[NSMutableArray alloc] init];
-    _counter = 0;
+    self.figures = [[NSMutableArray alloc] init];
+    //_counter = 0;
     for (int i = 0; i < kNumberOfFigures; ++i)
     {
         [self placeFigure];
@@ -271,7 +303,7 @@ static NSInteger const kNumberOfFigures = 10;
         CGFloat figureSize = 50 + ((float)rand() / (float)RAND_MAX);
         
         CGRect figureFrame = CGRectZero;
-        for (int j = 0; j < 1000; ++j)
+        for (int j = 0; j < 100; ++j)
         {
             figureFrame = CGRectMake(((float)rand() / (float)RAND_MAX) * (size.width - figureSize),
                                      ((float)rand() / (float)RAND_MAX) * (size.height - figureSize),

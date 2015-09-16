@@ -122,7 +122,7 @@
 - (void)drawRect:(CGRect)rect
 {
     self.backgroundColor = [UIColor clearColor];
-    rect = CGRectInset(rect, rect.size.width/100*2, rect.size.height/100*2);
+    rect = CGRectInset(rect, rect.size.width/100*3, rect.size.height/100*3);
     [self makeYourChoise:rect];
 }
 
