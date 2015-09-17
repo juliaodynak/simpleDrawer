@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		256182981BA2D7F700FAA386 /* FigureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 256182971BA2D7F700FAA386 /* FigureController.m */; };
+		2575E18D1BAB189500C3F572 /* ScoreControler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2575E18C1BAB189500C3F572 /* ScoreControler.m */; };
 		25A561E01B9C760C000A5EBC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A561DF1B9C760C000A5EBC /* main.m */; };
 		25A561E31B9C760C000A5EBC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A561E21B9C760C000A5EBC /* AppDelegate.m */; };
 		25A561E61B9C760C000A5EBC /* prom_graph.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25A561E41B9C760C000A5EBC /* prom_graph.xcdatamodeld */; };
@@ -32,6 +33,8 @@
 /* Begin PBXFileReference section */
 		256182961BA2D7F700FAA386 /* FigureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FigureController.h; sourceTree = "<group>"; };
 		256182971BA2D7F700FAA386 /* FigureController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FigureController.m; sourceTree = "<group>"; };
+		2575E18B1BAB189500C3F572 /* ScoreControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreControler.h; sourceTree = "<group>"; };
+		2575E18C1BAB189500C3F572 /* ScoreControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreControler.m; sourceTree = "<group>"; };
 		25A561DA1B9C760C000A5EBC /* prom_graph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = prom_graph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25A561DE1B9C760C000A5EBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25A561DF1B9C760C000A5EBC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -111,6 +114,8 @@
 			children = (
 				25A561DE1B9C760C000A5EBC /* Info.plist */,
 				25A561DF1B9C760C000A5EBC /* main.m */,
+				2575E18B1BAB189500C3F572 /* ScoreControler.h */,
+				2575E18C1BAB189500C3F572 /* ScoreControler.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -236,6 +241,7 @@
 				25A561E01B9C760C000A5EBC /* main.m in Sources */,
 				25A561E91B9C760C000A5EBC /* ViewController.m in Sources */,
 				256182981BA2D7F700FAA386 /* FigureController.m in Sources */,
+				2575E18D1BAB189500C3F572 /* ScoreControler.m in Sources */,
 				25A561E61B9C760C000A5EBC /* prom_graph.xcdatamodeld in Sources */,
 				25A5620B1B9C8073000A5EBC /* MyCanvas.m in Sources */,
 			);

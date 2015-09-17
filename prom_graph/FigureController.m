@@ -8,6 +8,7 @@
 
 #import "FigureController.h"
 #import "MyCanvas.h"
+#import "ScoreControler.h"
 
 
 static NSInteger const kNumberOfFigures = 10;
@@ -15,7 +16,6 @@ static NSInteger const kNumberOfFigures = 10;
 @interface FigureController ()
 
 @property (nonatomic, strong)  NSMutableArray *figures;
-//@property (nonatomic, assign) NSInteger counter;
 @property (nonatomic, assign) CGFloat originSize;
 @property (nonatomic, assign) CGFloat firstX;
 @property (nonatomic, assign) CGFloat firstY;
@@ -23,6 +23,10 @@ static NSInteger const kNumberOfFigures = 10;
 @property (nonatomic, strong) MyCanvas *chosenView;
 @property (nonatomic, assign) float distance;
 @property (nonatomic, strong) MyCanvas *viewToCompare;
+@property (nonatomic, assign) CGFloat vector;
+//@property (nonatomic, strong) NSTimer *time;
+@property(nonatomic,strong) NSString *contstr;
+@property(nonatomic,assign) double score;
 
 @property (nonatomic, strong) NSTimer *timer;
 
@@ -38,6 +42,10 @@ static NSInteger const kNumberOfFigures = 10;
     [super viewDidLoad];
     [self createFigures];
     self.distance = 1000000.0;
+    self.vector = -1;
+    self.score = 0;
+    self.contstr = @"";
+//    self.time = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(timerVector:) userInfo:nil repeats:YES];
     
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
     panRecognizer.minimumNumberOfTouches = 1;
@@ -49,55 +57,64 @@ static NSInteger const kNumberOfFigures = 10;
 
 - (void)timerFire
 {
-    CGFloat distance = 20.0f;
+    CGFloat distance = 35.0f;
     CGFloat viewHeight = self.view.frame.size.height - 30;
     CGFloat viewWidth = self.view.frame.size.width - 30;
-    CACurrentMediaTime();
+   // CACurrentMediaTime();
     
     __weak typeof(MyCanvas) *weakView = self.contView;
     [UIView animateWithDuration:0.1 animations:^{
-        
+        self.score = CACurrentMediaTime();
         for (MyCanvas* figure in self.figures)
         {
+           // [self timerVector:figure];
             if (weakView == nil || (weakView && ![figure isEqual:weakView]))
             {
                 CGFloat diffX = ((float)rand() / (float)RAND_MAX) * distance - distance / 2.0f;
                 CGFloat diffY = ((float)rand() / (float)RAND_MAX) * distance - distance / 2.0f;
-
+                
+                
                 if(figure.center.x >= viewWidth)
                 {
                     if(diffX > 0)
                     {
-                        diffX *= -1;
+                        diffX *= self.vector;
                     }
                 }
                 if(figure.center.x <= 50)
                 {
                     if(diffX < 0)
                     {
-                        diffX *= -1;
+                        diffX *= self.vector;
                     }
                 }
                 if(figure.center.y >= viewHeight)
                 {
                     if(diffY > 0)
                     {
-                        diffY *= -1;
+                        diffY *= self.vector;
                     }
                 }
                 if(figure.center.y <= 50)
                 {
                     if(diffY < 0)
                     {
-                        diffY *= -1;
+                        diffY *= self.vector;
                     }
                 }
                 figure.center = CGPointMake(figure.center.x + diffX, figure.center.y + diffY);
+
             }
         }
         
     }];
+    self.score = CACurrentMediaTime() - self.score ;
 }
+
+//- (void)timerVector:(MyCanvas*)fig
+//{
+//    fig.center = CGPointMake(fig.center.x * self.vector, fig.center.y );
+//}
 
 - (void)handlePan:(UIPanGestureRecognizer*)paramsender
 {
@@ -330,6 +347,41 @@ static NSInteger const kNumberOfFigures = 10;
         [self.figures addObject:ob];
         [self.view addSubview:ob];
 }
+
+- (void) keepScore
+{
+    NSString* hrt= [NSString stringWithFormat:@"%f", self.score];
+    self.contstr = hrt;
+   // [self performSegueWithIdentifier:@"goToExit" sender:nil];
+}
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [self keepScore];
+    UILabel* contlab;
+    contlab.text = self.contstr;
+    if([segue.identifier isEqualToString:@"goToExit"])
+    {
+        ScoreControler *vievController = (ScoreControler*)segue.destinationViewController;
+        [vievController putScoreToDisplay: _contstr];
+    }
+}
+
+//-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    needValue = idexPath.row; //Инициализируем номер ячейки
+//    [tableView deselectRowAtIndexPath:indexPath animated:true]; //Убираем select с ячейки, что бы при возвращении она не была выбрана
+//    [self performSegueWithIdentifier:@"schoolsToLogin" sender:nil]; //Инициализируем переход
+//}
+//
+//- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([segue.identifier isEqualToString:@"yourSegue"]) //Проверяем тот ли это segue, который нам нужен
+//    {
+//        nextViewController *nextController = (nextViewController *)segue.destinationViewController; //Создаем ссылку на viewController который будет вызван в результате segue
+//        
+//        [nextController setNeedValue: _needValue]; //инициализируем значение нужного viewController
+//    }
+//}
 
 @end
 

@@ -10,10 +10,16 @@
 #import "MyCanvas.h"
 
 @interface ViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *display;
+
 
 @end
 
-@implementation ViewController
 
+@implementation ViewController
+@synthesize rahunok;
+
+-(void) fixRahunok :(NSString*)rah
+{
+    rahunok.text = rah;
+}
 @end
