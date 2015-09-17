@@ -120,6 +120,9 @@
                                     <segue destination="m7O-jB-Jer" kind="show" identifier="goToExit" id="btH-Se-nP7"/>
                                 </connections>
                             </button>
+                            <connections>
+                                <action selector="goNext:" destination="AWx-nz-H0W" id="HWQ-iQ-acd"/>
+                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>

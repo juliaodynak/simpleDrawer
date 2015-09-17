@@ -43,7 +43,7 @@ static NSInteger const kNumberOfFigures = 10;
     [self createFigures];
     self.distance = 1000000.0;
     self.vector = -1;
-    self.score = 0;
+    self.score = CACurrentMediaTime();
     self.contstr = @"";
 //    self.time = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(timerVector:) userInfo:nil repeats:YES];
     
@@ -61,10 +61,10 @@ static NSInteger const kNumberOfFigures = 10;
     CGFloat viewHeight = self.view.frame.size.height - 30;
     CGFloat viewWidth = self.view.frame.size.width - 30;
    // CACurrentMediaTime();
-    
+    //self.score = CACurrentMediaTime();
     __weak typeof(MyCanvas) *weakView = self.contView;
     [UIView animateWithDuration:0.1 animations:^{
-        self.score = CACurrentMediaTime();
+        
         for (MyCanvas* figure in self.figures)
         {
            // [self timerVector:figure];
@@ -108,8 +108,9 @@ static NSInteger const kNumberOfFigures = 10;
         }
         
     }];
-    self.score = CACurrentMediaTime() - self.score ;
+    //self.score = CACurrentMediaTime() - self.score ;
 }
+
 
 //- (void)timerVector:(MyCanvas*)fig
 //{
@@ -350,6 +351,7 @@ static NSInteger const kNumberOfFigures = 10;
 
 - (void) keepScore
 {
+    self.score = CACurrentMediaTime() - self.score ;
     NSString* hrt= [NSString stringWithFormat:@"%f", self.score];
     self.contstr = hrt;
    // [self performSegueWithIdentifier:@"goToExit" sender:nil];
