@@ -97,7 +97,7 @@ static NSInteger const kNumberOfFigures = 10;
                         vector.y *= -1;
                     }
                 }
-                else if (figure.center.y <= figure.frame.size.height / 2)
+                else if (figure.center.y <= figure.frame.size.height / 2 + 50)
                 {
                     vector = [self generateVec];
                     if(vector.y < 0)
