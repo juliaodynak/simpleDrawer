@@ -11,7 +11,7 @@
 #import "ScoreControler.h"
 
 
-static NSInteger const kNumberOfFigures = 20;
+static NSInteger const kNumberOfFigures = 10;
 
 @interface FigureController ()
 
@@ -23,9 +23,11 @@ static NSInteger const kNumberOfFigures = 20;
 @property (nonatomic, strong) MyCanvas *chosenView;
 @property (nonatomic, assign) float distance;
 @property (nonatomic, strong) MyCanvas *viewToCompare;
-//@property (nonatomic, strong) NSTimer *time;
-@property(nonatomic,strong) NSString *contstr;
-@property(nonatomic,assign) double score;
+@property (nonatomic, strong) NSTimer *timeToNew;
+@property (nonatomic, strong) NSString *scoreString;
+@property (nonatomic, assign) NSTimeInterval startTime;
+
+@property (nonatomic, weak) IBOutlet UILabel *scoreLabel;
 
 @property (nonatomic, strong) NSTimer *timer;
 
@@ -41,9 +43,8 @@ static NSInteger const kNumberOfFigures = 20;
     [super viewDidLoad];
     [self createFigures];
     self.distance = 1000000.0;
-    self.score = CACurrentMediaTime();
-    self.contstr = @"";
-//    self.time = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(timerVector:) userInfo:nil repeats:YES];
+    self.startTime = CACurrentMediaTime();
+    self.scoreString = @"";
     
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
     panRecognizer.minimumNumberOfTouches = 1;
@@ -51,11 +52,12 @@ static NSInteger const kNumberOfFigures = 20;
     [self.view addGestureRecognizer:panRecognizer];
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFire) userInfo:nil repeats:YES];
+    self.timeToNew = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(placeFigure) userInfo:nil repeats:YES];
 }
+
 
 - (void)timerFire
 {
-    CGFloat distance = 35.0f;
     CGFloat viewHeight = self.view.frame.size.height;
     CGFloat viewWidth = self.view.frame.size.width;
    // CACurrentMediaTime();
@@ -110,7 +112,8 @@ static NSInteger const kNumberOfFigures = 20;
         }
         
     }];
-    //self.score = CACurrentMediaTime() - self.score ;
+    
+    [self setScoreLabelTime];
 }
 - (CGPoint)generateVec
 {
@@ -122,10 +125,7 @@ static NSInteger const kNumberOfFigures = 20;
 
 }
 
-//- (void)timerVector:(MyCanvas*)fig
-//{
-//    fig.center = CGPointMake(fig.center.x * self.vector, fig.center.y );
-//}
+
 
 - (void)handlePan:(UIPanGestureRecognizer*)paramsender
 {
@@ -299,7 +299,6 @@ static NSInteger const kNumberOfFigures = 20;
 - (void)createFigures
 {
     self.figures = [[NSMutableArray alloc] init];
-    //_counter = 0;
     for (int i = 0; i < kNumberOfFigures; ++i)
     {
         [self placeFigure];
@@ -333,12 +332,12 @@ static NSInteger const kNumberOfFigures = 20;
     CGFloat figureSize = 50 + ((float)rand() / (float)RAND_MAX);
     
     CGRect figureFrame = CGRectZero;
-    for (int j = 0; j < 100; ++j)
+    int j = 0;
+    for (; j < 20; ++j)
     {
         figureFrame = CGRectMake(((float)rand() / (float)RAND_MAX) * (size.width - figureSize),
                                  ((float)rand() / (float)RAND_MAX) * (size.height - figureSize),
                                  figureSize, figureSize);
-        
         
         BOOL intersects = NO;
         for (MyCanvas* figure in self.figures)
@@ -355,48 +354,43 @@ static NSInteger const kNumberOfFigures = 20;
             break;
         }
     }
-    ob.frame = figureFrame;
-    ob.userInteractionEnabled = NO;
-    [self.figures addObject:ob];
-    [self.view addSubview:ob];
-}
-
-- (void) keepScore
-{
-    self.score = CACurrentMediaTime() - self.score ;
-    NSString* hrt= [NSString stringWithFormat:@"%f", self.score];
-    self.contstr = hrt;
-   // [self performSegueWithIdentifier:@"goToExit" sender:nil];
-}
-- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    [self keepScore];
-    UILabel* contlab;
-    contlab.text = self.contstr;
-    if([segue.identifier isEqualToString:@"goToExit"])
+    
+    if (j >= 20)
     {
-        ScoreControler *vievController = (ScoreControler*)segue.destinationViewController;
-        [vievController putScoreToDisplay: _contstr];
+        // Game Over
+        [self performSegueWithIdentifier:@"goToExit" sender:self];
+    }
+    else
+    {
+        ob.frame = figureFrame;
+        ob.userInteractionEnabled = NO;
+        [self.figures addObject:ob];
+        [self.view addSubview:ob];
     }
 }
 
-//-(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    needValue = idexPath.row; //Инициализируем номер ячейки
-//    [tableView deselectRowAtIndexPath:indexPath animated:true]; //Убираем select с ячейки, что бы при возвращении она не была выбрана
-//    [self performSegueWithIdentifier:@"schoolsToLogin" sender:nil]; //Инициализируем переход
-//}
-//
-//- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([segue.identifier isEqualToString:@"yourSegue"]) //Проверяем тот ли это segue, который нам нужен
-//    {
-//        nextViewController *nextController = (nextViewController *)segue.destinationViewController; //Создаем ссылку на viewController который будет вызван в результате segue
-//        
-//        [nextController setNeedValue: _needValue]; //инициализируем значение нужного viewController
-//    }
-//}
+- (void)keepScore
+{
+    self.startTime = CACurrentMediaTime() - self.startTime;
+    NSString* hrt= [NSString stringWithFormat:@"%.2f", self.startTime];
+    self.scoreString = hrt;
+}
+
+- (void)setScoreLabelTime
+{
+    NSTimeInterval score = CACurrentMediaTime() - self.startTime;
+    NSString* scoreText= [NSString stringWithFormat:@"%.2f", score];
+    self.scoreLabel.text = scoreText;
+}
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"goToExit"])
+    {
+        [self keepScore];
+        ScoreControler *vievController = (ScoreControler*)segue.destinationViewController;
+        [vievController putScoreToDisplay:self.scoreString];
+    }
+}
 
 @end
-
-

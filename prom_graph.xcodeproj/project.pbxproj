@@ -108,6 +108,8 @@
 				25A5620A1B9C8073000A5EBC /* MyCanvas.m */,
 				256182961BA2D7F700FAA386 /* FigureController.h */,
 				256182971BA2D7F700FAA386 /* FigureController.m */,
+				2575E18B1BAB189500C3F572 /* ScoreControler.h */,
+				2575E18C1BAB189500C3F572 /* ScoreControler.m */,
 				250D15D91BAC09E8008999DA /* TableViewController.h */,
 				250D15DA1BAC09E8008999DA /* TableViewController.m */,
 			);
@@ -119,8 +121,6 @@
 			children = (
 				25A561DE1B9C760C000A5EBC /* Info.plist */,
 				25A561DF1B9C760C000A5EBC /* main.m */,
-				2575E18B1BAB189500C3F572 /* ScoreControler.h */,
-				2575E18C1BAB189500C3F572 /* ScoreControler.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";

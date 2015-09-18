@@ -29,6 +29,7 @@
 }
 - (void) putScoreToDisplay:(NSString *)scor
 {
+    display.text = scor;
     self.strWithScore = scor;
 }
 
@@ -41,5 +42,10 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (IBAction)onStartTap:(id)sender
+{
+    [self performSegueWithIdentifier:@"GoToStartSegue" sender:self];
+}
 
 @end
