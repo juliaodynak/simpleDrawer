@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		250D15DB1BAC09E8008999DA /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 250D15DA1BAC09E8008999DA /* TableViewController.m */; };
 		256182981BA2D7F700FAA386 /* FigureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 256182971BA2D7F700FAA386 /* FigureController.m */; };
 		2575E18D1BAB189500C3F572 /* ScoreControler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2575E18C1BAB189500C3F572 /* ScoreControler.m */; };
 		25A561E01B9C760C000A5EBC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A561DF1B9C760C000A5EBC /* main.m */; };
@@ -31,6 +32,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		250D15D91BAC09E8008999DA /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
+		250D15DA1BAC09E8008999DA /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
 		256182961BA2D7F700FAA386 /* FigureController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FigureController.h; sourceTree = "<group>"; };
 		256182971BA2D7F700FAA386 /* FigureController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FigureController.m; sourceTree = "<group>"; };
 		2575E18B1BAB189500C3F572 /* ScoreControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreControler.h; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 				25A5620A1B9C8073000A5EBC /* MyCanvas.m */,
 				256182961BA2D7F700FAA386 /* FigureController.h */,
 				256182971BA2D7F700FAA386 /* FigureController.m */,
+				250D15D91BAC09E8008999DA /* TableViewController.h */,
+				250D15DA1BAC09E8008999DA /* TableViewController.m */,
 			);
 			path = prom_graph;
 			sourceTree = "<group>";
@@ -244,6 +249,7 @@
 				2575E18D1BAB189500C3F572 /* ScoreControler.m in Sources */,
 				25A561E61B9C760C000A5EBC /* prom_graph.xcdatamodeld in Sources */,
 				25A5620B1B9C8073000A5EBC /* MyCanvas.m in Sources */,
+				250D15DB1BAC09E8008999DA /* TableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

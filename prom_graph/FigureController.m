@@ -11,7 +11,7 @@
 #import "ScoreControler.h"
 
 
-static NSInteger const kNumberOfFigures = 10;
+static NSInteger const kNumberOfFigures = 20;
 
 @interface FigureController ()
 
@@ -23,7 +23,6 @@ static NSInteger const kNumberOfFigures = 10;
 @property (nonatomic, strong) MyCanvas *chosenView;
 @property (nonatomic, assign) float distance;
 @property (nonatomic, strong) MyCanvas *viewToCompare;
-@property (nonatomic, assign) CGFloat vector;
 //@property (nonatomic, strong) NSTimer *time;
 @property(nonatomic,strong) NSString *contstr;
 @property(nonatomic,assign) double score;
@@ -42,7 +41,6 @@ static NSInteger const kNumberOfFigures = 10;
     [super viewDidLoad];
     [self createFigures];
     self.distance = 1000000.0;
-    self.vector = -1;
     self.score = CACurrentMediaTime();
     self.contstr = @"";
 //    self.time = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(timerVector:) userInfo:nil repeats:YES];
@@ -58,8 +56,8 @@ static NSInteger const kNumberOfFigures = 10;
 - (void)timerFire
 {
     CGFloat distance = 35.0f;
-    CGFloat viewHeight = self.view.frame.size.height - 30;
-    CGFloat viewWidth = self.view.frame.size.width - 30;
+    CGFloat viewHeight = self.view.frame.size.height;
+    CGFloat viewWidth = self.view.frame.size.width;
    // CACurrentMediaTime();
     //self.score = CACurrentMediaTime();
     __weak typeof(MyCanvas) *weakView = self.contView;
@@ -70,47 +68,59 @@ static NSInteger const kNumberOfFigures = 10;
            // [self timerVector:figure];
             if (weakView == nil || (weakView && ![figure isEqual:weakView]))
             {
-                CGFloat diffX = ((float)rand() / (float)RAND_MAX) * distance - distance / 2.0f;
-                CGFloat diffY = ((float)rand() / (float)RAND_MAX) * distance - distance / 2.0f;
+                CGPoint vector = figure.vector;
                 
+                if (figure.center.x + figure.frame.size.width / 2 >= viewWidth)
+                {
+                    vector = [self generateVec];
+                    if (vector.x > 0)
+                    {
+                        vector.x = -vector.x;
+                    }
+                }
+                else if (figure.center.x <= figure.frame.size.width / 2)
+                {
+                    vector = [self generateVec];
+                    if(vector.x < 0)
+                    {
+                        vector.x *= -1;
+                    }
+                }
                 
-                if(figure.center.x >= viewWidth)
+                if (figure.center.y + figure.frame.size.height / 2 >= viewHeight)
                 {
-                    if(diffX > 0)
+                    vector = [self generateVec];
+                    if(vector.y > 0)
                     {
-                        diffX *= self.vector;
+                        vector.y *= -1;
                     }
                 }
-                if(figure.center.x <= 50)
+                else if (figure.center.y <= figure.frame.size.height / 2)
                 {
-                    if(diffX < 0)
+                    vector = [self generateVec];
+                    if(vector.y < 0)
                     {
-                        diffX *= self.vector;
+                        vector.y *= -1;
                     }
                 }
-                if(figure.center.y >= viewHeight)
-                {
-                    if(diffY > 0)
-                    {
-                        diffY *= self.vector;
-                    }
-                }
-                if(figure.center.y <= 50)
-                {
-                    if(diffY < 0)
-                    {
-                        diffY *= self.vector;
-                    }
-                }
-                figure.center = CGPointMake(figure.center.x + diffX, figure.center.y + diffY);
-
+                
+                figure.center = CGPointMake(figure.center.x + vector.x, figure.center.y + vector.y);
+                figure.vector = vector;
             }
         }
         
     }];
     //self.score = CACurrentMediaTime() - self.score ;
 }
+- (CGPoint)generateVec
+{
+    CGFloat distance = 35.0f;
+    CGFloat diffX = ((float)rand() / (float)RAND_MAX) * distance - distance / 2.0f;
+    CGFloat diffY = ((float)rand() / (float)RAND_MAX) * distance - distance / 2.0f;
+    
+    return CGPointMake(diffX, diffY);
 
+}
 
 //- (void)timerVector:(MyCanvas*)fig
 //{
@@ -300,53 +310,55 @@ static NSInteger const kNumberOfFigures = 10;
 - (void)placeFigure
 {
 
-        NSInteger type = ((float)rand() / (float)RAND_MAX) * MCFigureTypeCount;
-        NSInteger colorStroke = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
-        NSInteger colorFill = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
-        MyCanvas *ob;
+    NSInteger type = ((float)rand() / (float)RAND_MAX) * MCFigureTypeCount;
+    NSInteger colorStroke = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
+    NSInteger colorFill = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
+    MyCanvas *ob;
     
-        if (type!=4 && type!=9)
-        {
-            ob = [[MyCanvas alloc] initWithType: type:colorStroke: colorFill];
-        }
-        if (type == 4)
-        {
-            ob = [[MyCanvas alloc] initWithType: MCFigureTypeNAngles: 6: colorStroke: colorFill];
-        }
-        if (type == 9)
-        {
-            ob = [[MyCanvas alloc] initWithType:MCFigureTypeNAngles: 12: colorStroke: colorFill];
-        }
-        CGSize size = self.view.frame.size;
-        CGFloat figureSize = 50 + ((float)rand() / (float)RAND_MAX);
+    if (type!=4 && type!=9)
+    {
+        ob = [[MyCanvas alloc] initWithType: type:colorStroke: colorFill];
         
-        CGRect figureFrame = CGRectZero;
-        for (int j = 0; j < 100; ++j)
+    }
+    if (type == 4)
+    {
+        ob = [[MyCanvas alloc] initWithType: MCFigureTypeNAngles: 6: colorStroke: colorFill];
+    }
+    if (type == 9)
+    {
+        ob = [[MyCanvas alloc] initWithType:MCFigureTypeNAngles: 12: colorStroke: colorFill];
+    }
+    ob.vector = [self generateVec];
+    CGSize size = self.view.frame.size;
+    CGFloat figureSize = 50 + ((float)rand() / (float)RAND_MAX);
+    
+    CGRect figureFrame = CGRectZero;
+    for (int j = 0; j < 100; ++j)
+    {
+        figureFrame = CGRectMake(((float)rand() / (float)RAND_MAX) * (size.width - figureSize),
+                                 ((float)rand() / (float)RAND_MAX) * (size.height - figureSize),
+                                 figureSize, figureSize);
+        
+        
+        BOOL intersects = NO;
+        for (MyCanvas* figure in self.figures)
         {
-            figureFrame = CGRectMake(((float)rand() / (float)RAND_MAX) * (size.width - figureSize),
-                                     ((float)rand() / (float)RAND_MAX) * (size.height - figureSize),
-                                     figureSize, figureSize);
-            
-            
-            BOOL intersects = NO;
-            for (MyCanvas* figure in self.figures)
+            if (CGRectIntersectsRect(figureFrame, [figure frame]))
             {
-                if (CGRectIntersectsRect(figureFrame, [figure frame]))
-                {
-                    intersects = YES;
-                    break;
-                }
-            }
-            
-            if (!intersects)
-            {
+                intersects = YES;
                 break;
             }
         }
-        ob.frame = figureFrame;
+        
+        if (!intersects)
+        {
+            break;
+        }
+    }
+    ob.frame = figureFrame;
     ob.userInteractionEnabled = NO;
-        [self.figures addObject:ob];
-        [self.view addSubview:ob];
+    [self.figures addObject:ob];
+    [self.view addSubview:ob];
 }
 
 - (void) keepScore

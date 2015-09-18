@@ -42,6 +42,7 @@ typedef NS_ENUM(NSInteger, MCColorChoise)
 
 @interface MyCanvas : UIView
 @property (nonatomic, assign) MCFigureType selectedType;
+@property (nonatomic, assign) CGPoint vector;
 
 
 - (instancetype)initWithType:(MCFigureType)typeOfFigure :(MCColorChoise)colorOfStroke :(MCColorChoise)colorOfFill;
