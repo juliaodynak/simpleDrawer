@@ -7,6 +7,8 @@
 //
 
 #import "ScoreControler.h"
+#import "TableViewController.h"
+#import "ViewController.h"
 
 @interface ScoreControler ()
 
@@ -46,6 +48,21 @@
 - (IBAction)onStartTap:(id)sender
 {
     [self performSegueWithIdentifier:@"goToStartSegue" sender:self];
+}
+
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    NSString* contForName = self.nameOfUser;
+    if (contForName == nil)
+    {
+        contForName = @"because it don't work";
+    }
+    if ([segue.identifier isEqualToString:@"goToLaeders"])
+    {
+        TableViewController *tabController = (TableViewController*)segue.destinationViewController;
+        [tabController putData: self.strWithScore toDictionary: contForName];
+    }
 }
 
 @end

@@ -12,41 +12,26 @@
 
 @interface ViewController ()
 
-@property (strong, nonatomic) IBOutlet UITextField *userName;
-@end
 
+@end
 
 @implementation ViewController
 - (void) viewDidLoad
 {
     [super viewDidLoad];
+    [self putName];
+    self.nameOfUser = self.userName.text;
     
 }
+- (IBAction)putDataName:(id)sender
+{
+    self.nameOfUser = self.userName.text;
+}
 
-//- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([segue.identifier isEqualToString:@"goToLeader"])
-//    {
-//        TableViewController *tabController = (TableViewController*)segue.destinationViewController;
-//        [tabController putNameToDictionary:self.userName];
-//    }
-//}
+-(void) putName
+{
+    self.nameOfUser = self.userName.text;
+}
 
-//- (void)keepScore
-//{
-//    self.startTime = CACurrentMediaTime() - self.startTime;
-//    NSString* hrt= [NSString stringWithFormat:@"%.2f", self.startTime];
-//    self.scoreString = hrt;
-//}
-//
-//- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([segue.identifier isEqualToString:@"goToExit"])
-//    {
-//        [self keepScore];
-//        ScoreControler *vievController = (ScoreControler*)segue.destinationViewController;
-//        [vievController putScoreToDisplay:self.scoreString];
-//    }
-//}
 
 @end

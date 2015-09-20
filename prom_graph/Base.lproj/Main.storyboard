@@ -25,6 +25,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="putDataName:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jXC-dJ-ilp"/>
                                     <segue destination="AWx-nz-H0W" kind="show" id="NNZ-J4-xea"/>
                                 </connections>
                             </button>
@@ -36,7 +37,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="0Wk-gl-GFs" kind="show" identifier="goToLeaders" id="2zk-2R-uYd"/>
+                                    <segue destination="0Wk-gl-GFs" kind="show" identifier="goToLeader" id="2zk-2R-uYd"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GcG-gZ-GSA">
@@ -98,6 +99,7 @@
                             <outlet property="delegate" destination="0Wk-gl-GFs" id="wsV-uI-Ro1"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="bEB-vD-FM8"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cCT-GG-mNz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -137,6 +139,15 @@
                                 </state>
                                 <connections>
                                     <action selector="onStartTap:" destination="kNK-hs-pw2" eventType="touchUpInside" id="QdN-oF-OmJ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ADD-BQ-hpp">
+                                <rect key="frame" x="137" y="322" width="48" height="30"/>
+                                <state key="normal" title="Leader">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="0Wk-gl-GFs" kind="show" identifier="goToLaeders" id="Pcu-Q9-hre"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -235,5 +246,6 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="fVY-eS-HSs"/>
+        <segue reference="2zk-2R-uYd"/>
     </inferredMetricsTieBreakers>
 </document>

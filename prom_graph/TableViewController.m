@@ -14,7 +14,7 @@
 @property NSArray *valueArray;
 @property (nonatomic, strong) NSString* scoreResult;
 @property (nonatomic, strong) NSString* nameKey;
-@property (nonatomic, strong) NSMutableDictionary* dictionaryForRate;
+@property (nonatomic, strong) NSDictionary* dictionaryForRate;
 @end
 
 @implementation TableViewController
@@ -22,12 +22,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.dictionaryForRate = [[NSUserDefaults standardUserDefaults]setObject:self.dictionaryForRate forKey:self.name];
-   // self.dictionaryForRate = [[NSDictionary alloc] initWithObjectsAndKeys:@"13.05",@"Allice",@"2",@"AAA", nil];
-    self.dictionaryForRate = [[NSMutableDictionary alloc]init];
-    [self.dictionaryForRate setValue:self.scoreResult forKey: self.nameKey];
+    self.dictionaryForRate = [[NSDictionary alloc] initWithObjectsAndKeys:self.scoreResult,self.nameKey, nil];
+//    self.dictionaryForRate = [[NSMutableDictionary alloc]init];
+//    [self.dictionaryForRate setValue:self.scoreResult forKey: self.nameKey];
     [[NSUserDefaults standardUserDefaults]setObject:self.dictionaryForRate forKey:self.nameKey];
     self.keyArray = [self.dictionaryForRate allKeys];
     self.valueArray = [self.dictionaryForRate allValues];
+}
+- (void) putData:(NSString*)value toDictionary: (NSString*) key
+{
+    self.scoreResult = value;
+    self.nameKey = key;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
