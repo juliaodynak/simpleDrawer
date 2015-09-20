@@ -59,11 +59,6 @@
     //swipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
     swipeRecognizer.numberOfTouchesRequired = 1;
     [self addGestureRecognizer:swipeRecognizer];
-    
-//    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
-//    panRecognizer.minimumNumberOfTouches = 1;
-//    panRecognizer.maximumNumberOfTouches = 1;
-//    [self addGestureRecognizer:panRecognizer];
     return self;
 }
 
@@ -84,10 +79,7 @@
     swipeRecognizer.numberOfTouchesRequired = 1;
     [self addGestureRecognizer:swipeRecognizer];
     
-//    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
-//    panRecognizer.minimumNumberOfTouches = 1;
-//    panRecognizer.maximumNumberOfTouches = 1;
-//    [self addGestureRecognizer:panRecognizer];
+
    return self;
 }
 
@@ -96,29 +88,7 @@
         [self removeFromSuperview];
 }
 
-//- (void)handlePan:(UIPanGestureRecognizer*)paramsender
-//{
-//    if(paramsender.state == UIGestureRecognizerStateBegan)
-//    {
-//        _originSize = self.frame.size.width;
-//        _firstX = self.frame.origin.x;
-//        _firstY = self.frame.origin.y;
-//        CGFloat figureSize = 50 + self.frame.size.width;
-//        CGRect figureFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y,
-//                                        figureSize, figureSize);
-//        self.frame = figureFrame;
-//    }
-//    if(paramsender.state == UIGestureRecognizerStateEnded)
-//    {
-//        CGPoint location = [paramsender locationInView:paramsender.view];
-//        CGRect figureFrame = CGRectMake(location.x, location.y,
-//                                        _originSize, _originSize);
-//        self.frame = figureFrame;
-//        CGPoint translation = [paramsender translationInView:paramsender.view];
-//        paramsender.view.center = CGPointMake(_firstX + translation.x, _firstY + translation.y);
-//        [paramsender setTranslation:CGPointZero inView:self.superview];
-//    }
-//}
+
 - (void)drawRect:(CGRect)rect
 {
     self.backgroundColor = [UIColor clearColor];

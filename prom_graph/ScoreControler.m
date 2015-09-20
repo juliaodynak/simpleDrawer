@@ -45,7 +45,7 @@
 
 - (IBAction)onStartTap:(id)sender
 {
-    [self performSegueWithIdentifier:@"GoToStartSegue" sender:self];
+    [self performSegueWithIdentifier:@"goToStartSegue" sender:self];
 }
 
 @end
