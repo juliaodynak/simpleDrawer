@@ -55,7 +55,7 @@
     }
     
     NSMutableDictionary *mDict = [result mutableCopy];
-    
+    //[mDict removeObjectForKey:@"0.93"];
     //
     //NSString *user = self.userName.text;
     if (!self.currentUser || self.currentUser.length == 0)
