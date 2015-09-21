@@ -10,5 +10,5 @@
 
 @interface FigureController : UIViewController
 
-
+- (void) putName: (NSString*) name;
 @end

@@ -26,6 +26,7 @@ static NSInteger const kNumberOfFigures = 10;
 @property (nonatomic, strong) NSTimer *timeToNew;
 @property (nonatomic, strong) NSString *scoreString;
 @property (nonatomic, assign) NSTimeInterval startTime;
+@property (nonatomic, strong) NSString* currentUser;
 
 @property (nonatomic, weak) IBOutlet UILabel *scoreLabel;
 
@@ -41,6 +42,7 @@ static NSInteger const kNumberOfFigures = 10;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.navigationItem setHidesBackButton:YES];
     [self createFigures];
     self.distance = 1000000.0;
     self.startTime = CACurrentMediaTime();
@@ -359,6 +361,7 @@ static NSInteger const kNumberOfFigures = 10;
     {
         // Game Over
         [self performSegueWithIdentifier:@"goToExit" sender:self];
+        [self putTimeNil];
     }
     else
     {
@@ -369,11 +372,23 @@ static NSInteger const kNumberOfFigures = 10;
     }
 }
 
+- (void) putTimeNil
+{
+    [self.timer invalidate];
+    self.timer = nil;
+    [self.timeToNew invalidate];
+    self.timeToNew = nil;
+}
 - (void)keepScore
 {
     self.startTime = CACurrentMediaTime() - self.startTime;
     NSString* hrt= [NSString stringWithFormat:@"%.2f", self.startTime];
     self.scoreString = hrt;
+}
+
+- (void) putName: (NSString*) name
+{
+    self.currentUser = name;
 }
 
 - (void)setScoreLabelTime
@@ -389,8 +404,9 @@ static NSInteger const kNumberOfFigures = 10;
     {
         [self keepScore];
         ScoreControler *vievController = (ScoreControler*)segue.destinationViewController;
-        [vievController putScoreToDisplay:self.scoreString];
+        [vievController putScoreToDisplay:self.scoreString: self.currentUser];
     }
+    [self putTimeNil];
 }
 
 @end

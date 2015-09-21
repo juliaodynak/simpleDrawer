@@ -11,7 +11,8 @@
 @interface ScoreControler : ViewController
 @property (weak, nonatomic) IBOutlet UILabel *display;
 @property (strong, nonatomic) NSString* strWithScore;
+@property (nonatomic, strong) NSString* currentUser;
 
-- (void) putScoreToDisplay:(NSString*) scor;
+- (void) putScoreToDisplay:(NSString*) scor: (NSString*) name;
 
 @end
