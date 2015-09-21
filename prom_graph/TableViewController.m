@@ -21,13 +21,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.dictionaryForRate = [[NSUserDefaults standardUserDefaults]setObject:self.dictionaryForRate forKey:self.name];
-    self.dictionaryForRate = [[NSDictionary alloc] initWithObjectsAndKeys:self.scoreResult,self.nameKey, nil];
-//    self.dictionaryForRate = [[NSMutableDictionary alloc]init];
-//    [self.dictionaryForRate setValue:self.scoreResult forKey: self.nameKey];
-    [[NSUserDefaults standardUserDefaults]setObject:self.dictionaryForRate forKey:self.nameKey];
+    self.dictionaryForRate = [[NSUserDefaults standardUserDefaults] objectForKey:@"leader"];
     self.keyArray = [self.dictionaryForRate allKeys];
     self.valueArray = [self.dictionaryForRate allValues];
+
 }
 - (void) putData:(NSString*)value toDictionary: (NSString*) key
 {

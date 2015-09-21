@@ -12,6 +12,7 @@
 
 @interface ScoreControler ()
 
+@property (nonatomic, strong) NSMutableDictionary* currentDict;
 @end
 
 @implementation ScoreControler
@@ -22,7 +23,7 @@
     [super viewDidLoad];
     [self.navigationItem setHidesBackButton:YES];
     display.text = self.strWithScore;
-    self.strWithScore =@"";
+    //self.strWithScore =@"";
     // Do any additional setup after loading the view.
 }
 
@@ -30,6 +31,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (void) putScoreToDisplay:(NSString *)scor :(NSString*) name
 {
     display.text = scor;
@@ -44,19 +46,41 @@
     [self performSegueWithIdentifier:@"goToStartSegue" sender:self];
 }
 
-
-- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    NSString* contForName = self.nameOfUser;
-    if (contForName == nil)
+- (IBAction)saveResult:(id)sender
+{    
+    NSDictionary *result = [[NSUserDefaults standardUserDefaults] objectForKey:@"leader"];
+    if (result == nil)
     {
-        contForName = @"because it don't work";
+        result = [[NSDictionary alloc] init];
     }
-    if ([segue.identifier isEqualToString:@"goToLaeders"])
+    
+    NSMutableDictionary *mDict = [result mutableCopy];
+    
+    //
+    //NSString *user = self.userName.text;
+    if (!self.currentUser || self.currentUser.length == 0)
     {
-        TableViewController *tabController = (TableViewController*)segue.destinationViewController;
-        [tabController putData: self.strWithScore toDictionary: contForName];
+        self.currentUser = @"<noname>";
     }
+    [mDict setObject:self.strWithScore forKey:self.currentUser];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:mDict forKey:@"leader"];
 }
+
+
+//- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    NSString* contForName = self.nameOfUser;
+//    //NSMutableDictionary* contdict = []
+//    if (contForName == nil)
+//    {
+//        contForName = @"because it don't work";
+//    }
+//    if ([segue.identifier isEqualToString:@"goToLaeders"])
+//    {
+//        TableViewController *tabController = (TableViewController*)segue.destinationViewController;
+//        [tabController putData: self.strWithScore toDictionary: contForName];
+//    }
+//}
 
 @end

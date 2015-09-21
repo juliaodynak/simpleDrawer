@@ -13,6 +13,6 @@
 @property (strong, nonatomic) NSString* strWithScore;
 @property (nonatomic, strong) NSString* currentUser;
 
-- (void) putScoreToDisplay:(NSString*) scor: (NSString*) name;
+- (void) putScoreToDisplay:(NSString*)scorstr :(NSString*) name;
 
 @end
