@@ -13,6 +13,7 @@
 @interface ScoreControler ()
 
 @property (nonatomic, strong) NSMutableDictionary* currentDict;
+@property (nonatomic, assign) BOOL saveResultProp;
 @end
 
 @implementation ScoreControler
@@ -23,6 +24,7 @@
     [super viewDidLoad];
     [self.navigationItem setHidesBackButton:YES];
     display.text = self.strWithScore;
+    self.saveResultProp = false;
     //self.strWithScore =@"";
     // Do any additional setup after loading the view.
 }
@@ -47,26 +49,41 @@
 }
 
 - (IBAction)saveResult:(id)sender
-{    
-    NSDictionary *result = [[NSUserDefaults standardUserDefaults] objectForKey:@"leader"];
-    if (result == nil)
+{
+    if (self.saveResultProp)
     {
-        result = [[NSDictionary alloc] init];
+        NSDictionary *result = [[NSUserDefaults standardUserDefaults] objectForKey:@"leader"];
+        if (result == nil)
+        {
+            result = [[NSDictionary alloc] init];
+        }
+        
+        NSMutableDictionary *mDict = [result mutableCopy];
+        //[mDict removeObjectForKey:@"0.93"];
+        //
+        //NSString *user = self.userName.text;
+        if (!self.currentUser || self.currentUser.length == 0)
+        {
+            self.currentUser = @"<noname>";
+        }
+        [mDict setObject:self.strWithScore forKey:self.currentUser];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:mDict forKey:@"leader"];
     }
     
-    NSMutableDictionary *mDict = [result mutableCopy];
-    //[mDict removeObjectForKey:@"0.93"];
-    //
-    //NSString *user = self.userName.text;
-    if (!self.currentUser || self.currentUser.length == 0)
-    {
-        self.currentUser = @"<noname>";
-    }
-    [mDict setObject:self.strWithScore forKey:self.currentUser];
-    
-    [[NSUserDefaults standardUserDefaults] setObject:mDict forKey:@"leader"];
 }
 
+- (IBAction)howSave:(UISwitch *)sender
+{
+    if (!self.saveResultProp)
+    {
+        self.saveResultProp = true;
+    }
+    else
+    {
+        self.saveResultProp = false;
+    }
+}
 
 //- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 //{

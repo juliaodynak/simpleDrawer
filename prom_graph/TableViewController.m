@@ -39,11 +39,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
-    cell.textLabel.font = [UIFont boldSystemFontOfSize:20];
-    cell.textLabel.textColor = [UIColor colorWithRed:4.0f/255.0f green:180.0f/255.0f blue:243.0f/255.0f alpha:1.0f];
-    cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:20];
-    cell.detailTextLabel.textColor = [UIColor colorWithRed:0.0f/255.0f green:180.0f/255.0f blue:143.0f/255.0f alpha:0.75f];
-    cell.backgroundColor = [UIColor colorWithRed:0.0f/255.0f green:240.0f/255.0f blue:143.0f/255.0f alpha:0.2f];
+    cell.textLabel.font = [UIFont fontWithName:@"Courier-Bold"  size:19.0];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.detailTextLabel.font = [UIFont fontWithName:@"Courier"  size:19.0];
+    cell.detailTextLabel.textColor = [UIColor whiteColor];
+    cell.backgroundColor = [UIColor colorWithRed:111.0f/255.0f green:168.0f/255.0f blue:220.0f/255.0f alpha:1.0f];
     
     [cell.textLabel setText:[self.keyArray objectAtIndex:indexPath.row]];
     [cell.detailTextLabel setText:[self.valueArray objectAtIndex:indexPath.row]];
