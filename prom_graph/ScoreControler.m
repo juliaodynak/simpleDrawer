@@ -74,6 +74,10 @@
                     [mDict setObject:self.strWithScore forKey:self.currentUser];
                 }
             }
+            else
+            {
+                [mDict setObject:self.strWithScore forKey:self.currentUser];
+            }
         }
         
         
