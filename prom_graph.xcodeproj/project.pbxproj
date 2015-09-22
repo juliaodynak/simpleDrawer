@@ -10,6 +10,7 @@
 		250D15DB1BAC09E8008999DA /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 250D15DA1BAC09E8008999DA /* TableViewController.m */; };
 		256182981BA2D7F700FAA386 /* FigureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 256182971BA2D7F700FAA386 /* FigureController.m */; };
 		2575E18D1BAB189500C3F572 /* ScoreControler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2575E18C1BAB189500C3F572 /* ScoreControler.m */; };
+		25913DCB1BB13CD70031B4FF /* 5652.png in Resources */ = {isa = PBXBuildFile; fileRef = 25913DCA1BB13CD70031B4FF /* 5652.png */; };
 		25A561E01B9C760C000A5EBC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A561DF1B9C760C000A5EBC /* main.m */; };
 		25A561E31B9C760C000A5EBC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A561E21B9C760C000A5EBC /* AppDelegate.m */; };
 		25A561E61B9C760C000A5EBC /* prom_graph.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 25A561E41B9C760C000A5EBC /* prom_graph.xcdatamodeld */; };
@@ -38,6 +39,7 @@
 		256182971BA2D7F700FAA386 /* FigureController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FigureController.m; sourceTree = "<group>"; };
 		2575E18B1BAB189500C3F572 /* ScoreControler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScoreControler.h; sourceTree = "<group>"; };
 		2575E18C1BAB189500C3F572 /* ScoreControler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScoreControler.m; sourceTree = "<group>"; };
+		25913DCA1BB13CD70031B4FF /* 5652.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 5652.png; sourceTree = "<group>"; };
 		25A561DA1B9C760C000A5EBC /* prom_graph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = prom_graph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		25A561DE1B9C760C000A5EBC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		25A561DF1B9C760C000A5EBC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				25A561E71B9C760C000A5EBC /* ViewController.h */,
 				25A561E81B9C760C000A5EBC /* ViewController.m */,
 				25A561EA1B9C760C000A5EBC /* Main.storyboard */,
+				25913DCA1BB13CD70031B4FF /* 5652.png */,
 				25A561ED1B9C760C000A5EBC /* Images.xcassets */,
 				25A561EF1B9C760C000A5EBC /* LaunchScreen.xib */,
 				25A561E41B9C760C000A5EBC /* prom_graph.xcdatamodeld */,
@@ -223,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				25A561EC1B9C760C000A5EBC /* Main.storyboard in Resources */,
+				25913DCB1BB13CD70031B4FF /* 5652.png in Resources */,
 				25A561F11B9C760C000A5EBC /* LaunchScreen.xib in Resources */,
 				25A561EE1B9C760C000A5EBC /* Images.xcassets in Resources */,
 			);

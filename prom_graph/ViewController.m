@@ -20,7 +20,8 @@
 - (void) viewDidLoad
 {
     [super viewDidLoad];
-    [self putName];
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"5652.png"]]];
+        [self putName];
     self.nameOfUser = self.userName.text;
     
 }
