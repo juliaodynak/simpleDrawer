@@ -60,13 +60,22 @@
         
         NSMutableDictionary *mDict = [result mutableCopy];
         //[mDict removeObjectForKey:@"0.93"];
-        //
-        //NSString *user = self.userName.text;
+        
         if (!self.currentUser || self.currentUser.length == 0)
         {
             self.currentUser = @"<noname>";
         }
-        [mDict setObject:self.strWithScore forKey:self.currentUser];
+        for (int i =0 ; i < mDict.count; i++)
+        {
+            if ([mDict.allKeys[i] isEqualToString:self.currentUser])
+            {
+                if ([mDict.allValues[i] floatValue] < [self.strWithScore floatValue])
+                {
+                    [mDict setObject:self.strWithScore forKey:self.currentUser];
+                }
+            }
+        }
+        
         
         [[NSUserDefaults standardUserDefaults] setObject:mDict forKey:@"leader"];
     }

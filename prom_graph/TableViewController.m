@@ -14,7 +14,7 @@
 @property NSArray *valueArray;
 @property (nonatomic, strong) NSString* scoreResult;
 @property (nonatomic, strong) NSString* nameKey;
-@property (nonatomic, strong) NSDictionary* dictionaryForRate;
+@property (nonatomic, strong) NSMutableDictionary* dictionaryForRate;
 @end
 
 @implementation TableViewController
@@ -26,6 +26,16 @@
     self.valueArray = [self.dictionaryForRate allValues];
 
 }
+
+//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    NSString* gs =;
+//    
+//    
+//    
+//}
+
+
 - (void) putData:(NSString*)value toDictionary: (NSString*) key
 {
     self.scoreResult = value;
@@ -50,6 +60,18 @@
     
     return cell;
 }
-
+//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return YES;
+//}
+//
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if (editingStyle == UITableViewCellEditingStyleDelete) {
+//        //remove the deleted object from your data source.
+//        //If your data source is an NSMutableArray, do this
+//        //NSString* hghsd = self.nameKey[indexPath.row];
+//        [self.dictionaryForRate removeObjectForKey:[self.valueArray objectAtIndex:indexPath.row ]];
+//        [tableView reloadData]; // tell table to refresh now
+//    }
+//}
 
 @end
