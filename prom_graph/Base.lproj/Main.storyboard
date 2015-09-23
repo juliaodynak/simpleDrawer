@@ -85,6 +85,7 @@
                     <navigationItem key="navigationItem" id="XJY-1y-CGa"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="startButton" destination="M4X-rz-yYc" id="Nw0-rR-XyO"/>
                         <outlet property="userName" destination="GcG-gZ-GSA" id="L3r-F3-sNb"/>
                     </connections>
                 </viewController>

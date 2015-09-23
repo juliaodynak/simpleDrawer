@@ -13,6 +13,7 @@
 
 @interface ViewController ()
 
+@property (weak, nonatomic) IBOutlet UIButton *startButton;
 
 @end
 
@@ -23,6 +24,7 @@
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"5652.png"]]];
         [self putName];
     self.nameOfUser = self.userName.text;
+    self.startButton.enabled = NO;
     
 }
 - (IBAction)putDataName:(id)sender
@@ -49,7 +51,7 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
-//    self.str.enable = [str length] >3;
+    self.startButton.enabled = [str length] >3;
     
     NSCharacterSet *set = [NSCharacterSet decimalDigitCharacterSet];
     NSString *s = [string stringByTrimmingCharactersInSet:set];
@@ -60,6 +62,7 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 //    [self star];
+    [self performSegueWithIdentifier:@"goToGame" sender:self];
     return YES;
 }
 
