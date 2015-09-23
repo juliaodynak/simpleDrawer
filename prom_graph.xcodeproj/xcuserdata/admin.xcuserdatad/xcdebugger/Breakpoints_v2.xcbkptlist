@@ -70,16 +70,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "prom_graph/FigureController.m"
-            timestampString = "464707105.382965"
+            timestampString = "464714758.229014"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
-            landmarkName = "-timerFire"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "-makePause:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

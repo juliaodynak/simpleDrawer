@@ -27,10 +27,14 @@ static NSInteger const kNumberOfFigures = 10;
 @property (nonatomic, strong) NSString *scoreString;
 @property (nonatomic, assign) NSTimeInterval startTime;
 @property (nonatomic, strong) NSString* currentUser;
+@property (nonatomic, assign) BOOL pauseTap;
 
 @property (nonatomic, weak) IBOutlet UILabel *scoreLabel;
 
+//@property (strong, nonatomic) IBOutlet UIBarButtonItem *pauseButton;
+
 @property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) NSTimer *timerWait;
 
 @end
 
@@ -47,14 +51,47 @@ static NSInteger const kNumberOfFigures = 10;
     self.distance = 1000000.0;
     self.startTime = CACurrentMediaTime();
     self.scoreString = @"";
+    self.pauseTap = NO;
     
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
     panRecognizer.minimumNumberOfTouches = 1;
     panRecognizer.maximumNumberOfTouches = 1;
     [self.view addGestureRecognizer:panRecognizer];
+    [self startGame];
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFire) userInfo:nil repeats:YES];
-    self.timeToNew = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(placeFigure) userInfo:nil repeats:YES];
+//    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFire) userInfo:nil repeats:YES];
+//    self.timeToNew = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(placeFigure) userInfo:nil repeats:YES];
+    //self.pauseButton = [UIBarButtonItem initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(makePause:)];
+}
+
+-(void) startGame
+{
+    if (self.pauseTap == NO)
+    {
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFire) userInfo:nil repeats:YES];
+        self.timeToNew = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(placeFigure) userInfo:nil repeats:YES];
+    }
+    
+}
+
+- (IBAction)wer:(id)sender
+{
+    if (self.pauseTap == NO)
+    {
+        self.pauseTap = YES;
+        [self.timer invalidate];
+        [self.timeToNew invalidate];
+        self.timerWait = [NSTimer scheduledTimerWithTimeInterval:0.1 invocation:nil repeats:YES];
+       // [self startGame];
+    }
+    else
+    {
+        self.pauseTap = NO;
+        //[self.timer fire];
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFire) userInfo:nil repeats:YES];
+        self.timeToNew = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(placeFigure) userInfo:nil repeats:YES];
+        //[self startGame];
+    }
 }
 
 
@@ -65,55 +102,59 @@ static NSInteger const kNumberOfFigures = 10;
    // CACurrentMediaTime();
     //self.score = CACurrentMediaTime();
     __weak typeof(MyCanvas) *weakView = self.contView;
-    [UIView animateWithDuration:0.1 animations:^{
-        
-        for (MyCanvas* figure in self.figures)
-        {
-           // [self timerVector:figure];
-            if (weakView == nil || (weakView && ![figure isEqual:weakView]))
+    if (self.pauseTap == NO)
+    {
+        [UIView animateWithDuration:0.1 animations:^{
+            
+            for (MyCanvas* figure in self.figures)
             {
-                CGPoint vector = figure.vector;
-                
-                if (figure.center.x + figure.frame.size.width / 2 >= viewWidth)
+                // [self timerVector:figure];
+                if (weakView == nil || (weakView && ![figure isEqual:weakView]))
                 {
-                    vector = [self generateVec];
-                    if (vector.x > 0)
+                    CGPoint vector = figure.vector;
+                    
+                    if (figure.center.x + figure.frame.size.width / 2 >= viewWidth)
                     {
-                        vector.x = -vector.x;
+                        vector = [self generateVec];
+                        if (vector.x > 0)
+                        {
+                            vector.x = -vector.x;
+                        }
                     }
-                }
-                else if (figure.center.x <= figure.frame.size.width / 2)
-                {
-                    vector = [self generateVec];
-                    if(vector.x < 0)
+                    else if (figure.center.x <= figure.frame.size.width / 2)
                     {
-                        vector.x *= -1;
+                        vector = [self generateVec];
+                        if(vector.x < 0)
+                        {
+                            vector.x *= -1;
+                        }
                     }
-                }
-                
-                if (figure.center.y + figure.frame.size.height / 2 >= viewHeight)
-                {
-                    vector = [self generateVec];
-                    if(vector.y > 0)
+                    
+                    if (figure.center.y + figure.frame.size.height / 2 >= viewHeight)
                     {
-                        vector.y *= -1;
+                        vector = [self generateVec];
+                        if(vector.y > 0)
+                        {
+                            vector.y *= -1;
+                        }
                     }
-                }
-                else if (figure.center.y <= figure.frame.size.height / 2 + 50)
-                {
-                    vector = [self generateVec];
-                    if(vector.y < 0)
+                    else if (figure.center.y <= figure.frame.size.height / 2 + 50)
                     {
-                        vector.y *= -1;
+                        vector = [self generateVec];
+                        if(vector.y < 0)
+                        {
+                            vector.y *= -1;
+                        }
                     }
+                    
+                    figure.center = CGPointMake(figure.center.x + vector.x, figure.center.y + vector.y);
+                    figure.vector = vector;
                 }
-                
-                figure.center = CGPointMake(figure.center.x + vector.x, figure.center.y + vector.y);
-                figure.vector = vector;
             }
-        }
-        
-    }];
+            
+        }];
+    }
+
     
     [self setScoreLabelTime];
 }
@@ -128,6 +169,10 @@ static NSInteger const kNumberOfFigures = 10;
 }
 
 
+- (IBAction)makePause:(id)sender
+{
+    //int a = 5;
+}
 
 - (void)handlePan:(UIPanGestureRecognizer*)paramsender
 {
