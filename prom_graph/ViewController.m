@@ -43,4 +43,24 @@
     }
 }
 
+
+#pragma mark - UITextFieldDelegate <NSObject>
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSString *str = [textField.text stringByReplacingCharactersInRange:range withString:string];
+//    self.str.enable = [str length] >3;
+    
+    NSCharacterSet *set = [NSCharacterSet decimalDigitCharacterSet];
+    NSString *s = [string stringByTrimmingCharactersInSet:set];
+    
+    return [s isEqualToString:string];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+//    [self star];
+    return YES;
+}
+
 @end

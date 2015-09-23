@@ -79,6 +79,11 @@
                 [mDict setObject:self.strWithScore forKey:self.currentUser];
             }
         }
+        if (mDict.count == 0)
+        {
+            [mDict setObject:self.strWithScore forKey:self.currentUser];
+        }
+        
         
         
         [[NSUserDefaults standardUserDefaults] setObject:mDict forKey:@"leader"];
