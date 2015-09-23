@@ -34,7 +34,7 @@ static NSInteger const kNumberOfFigures = 10;
 //@property (strong, nonatomic) IBOutlet UIBarButtonItem *pauseButton;
 
 @property (nonatomic, strong) NSTimer *timer;
-@property (nonatomic, strong) NSTimer *timerWait;
+@property (nonatomic, assign) NSTimeInterval timerWait;
 
 @end
 
@@ -81,16 +81,16 @@ static NSInteger const kNumberOfFigures = 10;
         self.pauseTap = YES;
         [self.timer invalidate];
         [self.timeToNew invalidate];
-        self.timerWait = [NSTimer scheduledTimerWithTimeInterval:0.1 invocation:nil repeats:YES];
+        self.timerWait = CACurrentMediaTime();
        // [self startGame];
     }
     else
     {
         self.pauseTap = NO;
-        //[self.timer fire];
         self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFire) userInfo:nil repeats:YES];
         self.timeToNew = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(placeFigure) userInfo:nil repeats:YES];
-        //[self startGame];
+        self.timerWait = CACurrentMediaTime() - self.timerWait;
+        self.startTime = self.startTime + self.timerWait;
     }
 }
 
@@ -169,10 +169,7 @@ static NSInteger const kNumberOfFigures = 10;
 }
 
 
-- (IBAction)makePause:(id)sender
-{
-    //int a = 5;
-}
+
 
 - (void)handlePan:(UIPanGestureRecognizer*)paramsender
 {
@@ -439,6 +436,7 @@ static NSInteger const kNumberOfFigures = 10;
 - (void)setScoreLabelTime
 {
     NSTimeInterval score = CACurrentMediaTime() - self.startTime;
+    
     NSString* scoreText= [NSString stringWithFormat:@"%.2f", score];
     self.scoreLabel.text = scoreText;
 }
