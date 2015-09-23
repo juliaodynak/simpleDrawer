@@ -61,7 +61,7 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-//    [self star];
+
     [self performSegueWithIdentifier:@"goToGame" sender:self];
     return YES;
 }
