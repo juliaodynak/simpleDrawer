@@ -10,7 +10,8 @@
 
 @interface TableViewController ()
 @property NSArray *tableData;
-@property NSArray *keyArray;
+@property NSMutableArray *keyArray;
+@property NSArray *contForKeys;
 @property NSArray *valueArray;
 @property (nonatomic, strong) NSString* scoreResult;
 @property (nonatomic, strong) NSString* nameKey;
@@ -22,8 +23,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.dictionaryForRate = [[NSUserDefaults standardUserDefaults] objectForKey:@"leader"];
-    self.keyArray = [self.dictionaryForRate allKeys];
-    self.valueArray = [self.dictionaryForRate allValues];
+    self.keyArray = [[NSMutableArray alloc]init];
+    self.contForKeys = [self.dictionaryForRate allKeys];
+    
+    self.valueArray = [[self.dictionaryForRate allValues] sortedArrayUsingComparator:^(id obj1, id obj2) {
+        if ([obj1 doubleValue] > [obj2 doubleValue])
+            return (NSComparisonResult)NSOrderedAscending;
+        if ([obj1 doubleValue] < [obj2 doubleValue])
+            return (NSComparisonResult)NSOrderedDescending;
+        return (NSComparisonResult)NSOrderedSame;
+    }];
+    int i =0;
+    while (self.keyArray.count != self.contForKeys.count)
+    {
+        for (NSString * key in self.contForKeys)
+        {
+            if ([self.valueArray[i] isEqualToString:[self.dictionaryForRate valueForKey:key]])
+            {
+                self.keyArray[i] = key;
+                i++;
+                break;
+            }
+        }
+    }
+    
 
 }
 
