@@ -157,148 +157,155 @@ static NSInteger const kNumberOfFigures = 10;
 
 - (void)handlePan:(UIPanGestureRecognizer*)paramsender
 {
-    if (paramsender.state == UIGestureRecognizerStateBegan)
+    if (self.pauseTap == NO)
     {
-        CGPoint location = [paramsender locationInView:paramsender.view];
-        for(int i=0; i<self.figures.count;i++)
+        if (paramsender.state == UIGestureRecognizerStateBegan)
         {
-            if(CGRectContainsPoint([self.figures[i] frame], location))
+            CGPoint location = [paramsender locationInView:paramsender.view];
+            for(int i=0; i<self.figures.count;i++)
             {
-                self.contView = self.figures[i];
-                self.originSize  = self.contView.frame.size.width;
-                break;
-            }
-        }
-    }
-    
-    if (paramsender.state == UIGestureRecognizerStateChanged)
-    {
-        CGPoint center = self.contView.center;
-        CGPoint translation = [paramsender translationInView:self.view];
-        
-        center.x += translation.x;
-        center.y += translation.y;
-        
-        self.contView.center = center;
-        
-        [paramsender setTranslation:CGPointZero inView:self.view];
-        
-        self.contView.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
-        self.contView.layer.shadowOpacity = 0.5f;
-        
-        for(int i=0; i<self.figures.count;i++)
-        {
-            if (![self.figures[i] isEqual:self.contView]) {
-                self.viewToCompare = self.figures[i];
-                self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-                self.viewToCompare.layer.shadowOpacity = 0.0f;
-            }
-            
-            if(CGRectIntersectsRect(self.contView.frame, [self.figures[i] frame]) && self.contView != self.figures[i])
-            {
-                self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
-                self.viewToCompare.layer.shadowOpacity = 0.5f;
-            }
-        }
-    }
-    
-    if( paramsender.state == UIGestureRecognizerStateEnded)
-    {
-        [UIView animateWithDuration:0.1 animations:^{
-            self.contView.transform = CGAffineTransformIdentity;
-        } /*completion:^(BOOL finished) {
-           self.contView = nil;
-           }*/];
-        
-        self.contView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-        self.contView.layer.shadowOpacity = 0.0f;
-        
-        for(int i=0; i<self.figures.count;i++)
-        {
-            if(CGRectIntersectsRect(self.contView.frame, [self.figures[i] frame]) && self.contView != self.figures[i])
-            {
-                self.viewToCompare = self.figures[i];
-                self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-                self.viewToCompare.layer.shadowOpacity = 0.0f;
-                self.contView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-                self.contView.layer.shadowOpacity = 0.0f;
-                
-                CGPoint center = self.contView.center;
-                CGPoint currentFigureCenter = self.viewToCompare.center;
-                
-                CGFloat xDist = (center.x - currentFigureCenter.x);
-                CGFloat yDist = (center.y - currentFigureCenter.y);
-                CGFloat currentDistance = sqrt((xDist * xDist) + (yDist * yDist));
-                if(self.distance > currentDistance)
+                if(CGRectContainsPoint([self.figures[i] frame], location))
                 {
-                    self.distance = currentDistance;
-                    self.chosenView = self.figures[i];
+                    self.contView = self.figures[i];
+                    self.originSize  = self.contView.frame.size.width;
+                    break;
                 }
             }
         }
         
-        if ([self.contView selectedType] == [self.chosenView selectedType]&& self.chosenView!=nil && self.contView!=nil)
+        if (paramsender.state == UIGestureRecognizerStateChanged)
         {
-            [self.contView removeFromSuperview];
-            [self.chosenView removeFromSuperview];
+            CGPoint center = self.contView.center;
+            CGPoint translation = [paramsender translationInView:self.view];
             
-            for(int j = 0;j < self.figures.count; j++)
+            center.x += translation.x;
+            center.y += translation.y;
+            
+            self.contView.center = center;
+            
+            [paramsender setTranslation:CGPointZero inView:self.view];
+            
+            self.contView.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+            self.contView.layer.shadowOpacity = 0.5f;
+            
+            for(int i=0; i<self.figures.count;i++)
             {
-                if ([self.figures[j] isEqual: self.contView] || [self.figures[j] isEqual: self.chosenView])
+                if (![self.figures[i] isEqual:self.contView]) {
+                    self.viewToCompare = self.figures[i];
+                    self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+                    self.viewToCompare.layer.shadowOpacity = 0.0f;
+                }
+                
+                if(CGRectIntersectsRect(self.contView.frame, [self.figures[i] frame]) && self.contView != self.figures[i])
                 {
-                    [self.figures removeObjectAtIndex:j];
+                    self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+                    self.viewToCompare.layer.shadowOpacity = 0.5f;
                 }
             }
-            [self makeNill];
-            
         }
         
-        else if ([self.contView selectedType] != [self.chosenView selectedType] && self.chosenView!=nil && self.contView!=nil)
+        if( paramsender.state == UIGestureRecognizerStateEnded)
         {
-            [self placeFigure];
+            [UIView animateWithDuration:0.1 animations:^{
+                self.contView.transform = CGAffineTransformIdentity;
+            } /*completion:^(BOOL finished) {
+               self.contView = nil;
+               }*/];
+            
             self.contView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
             self.contView.layer.shadowOpacity = 0.0f;
             
-            self.chosenView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
-            self.chosenView.layer.shadowOpacity = 0.0f;
+            for(int i=0; i<self.figures.count;i++)
+            {
+                if(CGRectIntersectsRect(self.contView.frame, [self.figures[i] frame]) && self.contView != self.figures[i])
+                {
+                    self.viewToCompare = self.figures[i];
+                    self.viewToCompare.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+                    self.viewToCompare.layer.shadowOpacity = 0.0f;
+                    self.contView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+                    self.contView.layer.shadowOpacity = 0.0f;
+                    
+                    CGPoint center = self.contView.center;
+                    CGPoint currentFigureCenter = self.viewToCompare.center;
+                    
+                    CGFloat xDist = (center.x - currentFigureCenter.x);
+                    CGFloat yDist = (center.y - currentFigureCenter.y);
+                    CGFloat currentDistance = sqrt((xDist * xDist) + (yDist * yDist));
+                    if(self.distance > currentDistance)
+                    {
+                        self.distance = currentDistance;
+                        self.chosenView = self.figures[i];
+                    }
+                }
+            }
             
+            if ([self.contView selectedType] == [self.chosenView selectedType]&& self.chosenView!=nil && self.contView!=nil)
+            {
+                [self.contView removeFromSuperview];
+                [self.chosenView removeFromSuperview];
+                
+                for(int j = 0;j < self.figures.count; j++)
+                {
+                    if ([self.figures[j] isEqual: self.contView] || [self.figures[j] isEqual: self.chosenView])
+                    {
+                        [self.figures removeObjectAtIndex:j];
+                    }
+                }
+                [self makeNill];
+                
+            }
+            
+            else if ([self.contView selectedType] != [self.chosenView selectedType] && self.chosenView!=nil && self.contView!=nil)
+            {
+                [self placeFigure];
+                self.contView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+                self.contView.layer.shadowOpacity = 0.0f;
+                
+                self.chosenView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+                self.chosenView.layer.shadowOpacity = 0.0f;
+                
+                [self makeNill];
+            }
             [self makeNill];
         }
-        [self makeNill];
-    }
-    
-    if( paramsender.state == UIGestureRecognizerStateCancelled)
-    {
-        self.contView.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
-        self.contView.layer.shadowOpacity = 0.5f;
-        [self makeNill];
-    }
-    
-    if(paramsender.state == UIGestureRecognizerStateFailed)
-    {
-        [self makeNill];
+        
+        if( paramsender.state == UIGestureRecognizerStateCancelled)
+        {
+            self.contView.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+            self.contView.layer.shadowOpacity = 0.5f;
+            [self makeNill];
+        }
+        
+        if(paramsender.state == UIGestureRecognizerStateFailed)
+        {
+            [self makeNill];
+        }
+
     }
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [super touchesBegan:touches withEvent:event];
-    
-    CGPoint location = [touches.anyObject locationInView:self.view];
-    for(int i = 0; i < self.figures.count; i++)
+    if (self.pauseTap == NO)
     {
-        if(CGRectContainsPoint([self.figures[i] frame], location))
+        [super touchesBegan:touches withEvent:event];
+        
+        CGPoint location = [touches.anyObject locationInView:self.view];
+        for(int i = 0; i < self.figures.count; i++)
         {
-            self.contView = self.figures[i];
-            [UIView animateWithDuration:0.1 animations:^{
-                self.contView.transform = CGAffineTransformMakeScale(1.1f, 1.1f);
-            }];
+            if(CGRectContainsPoint([self.figures[i] frame], location))
+            {
+                self.contView = self.figures[i];
+                [UIView animateWithDuration:0.1 animations:^{
+                    self.contView.transform = CGAffineTransformMakeScale(1.1f, 1.1f);
+                }];
+            }
         }
+        
+        [self.view bringSubviewToFront:self.contView];
+        self.contView.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
+        self.contView.layer.shadowOpacity = 0.5f;
     }
-    
-    [self.view bringSubviewToFront:self.contView];
-    self.contView.layer.shadowOffset = CGSizeMake(0.0f, 5.0f);
-    self.contView.layer.shadowOpacity = 0.5f;
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
