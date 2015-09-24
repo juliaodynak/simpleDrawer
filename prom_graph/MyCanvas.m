@@ -54,11 +54,6 @@
         self.colorOfFigureFill = colorOfFill;
         [self setBackgroundColor: [[UIColor clearColor] colorWithAlphaComponent: 0]];
     }
-    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipes:)];
-    swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-    //swipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
-    swipeRecognizer.numberOfTouchesRequired = 1;
-    [self addGestureRecognizer:swipeRecognizer];
     return self;
 }
 
@@ -73,21 +68,8 @@
         self.colorOfFigureFill = colorOfFill;
         [self setBackgroundColor: [[UIColor clearColor] colorWithAlphaComponent: 0]];
     }
-    
-    UISwipeGestureRecognizer *swipeRecognizer = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipes:)];
-    swipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-    swipeRecognizer.numberOfTouchesRequired = 1;
-    [self addGestureRecognizer:swipeRecognizer];
-    
-
    return self;
 }
-
-- (void)handleSwipes:(UISwipeGestureRecognizer*)paramsender
-{
-        [self removeFromSuperview];
-}
-
 
 - (void)drawRect:(CGRect)rect
 {
@@ -187,7 +169,6 @@
 - (void) setColorOfFill
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
-   // CGContextSetFillColorWithColor(context, [[UIColor greenColor] CGColor]);
     switch (_colorOfFigureFill) {
         case 0:
             CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
