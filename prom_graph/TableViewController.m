@@ -17,13 +17,15 @@
 @property (nonatomic, strong) NSString* scoreResult;
 @property (nonatomic, strong) NSString* nameKey;
 @property (nonatomic, strong) NSMutableDictionary* dictionaryForRate;
+@property NSDictionary* dictForUse;
 @end
 
 @implementation TableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.dictionaryForRate = [[NSUserDefaults standardUserDefaults] objectForKey:@"leader"];
+    self.dictForUse = [[NSUserDefaults standardUserDefaults] objectForKey:@"leader"];
+    self.dictionaryForRate = [self.dictForUse mutableCopy];
     self.keyArray = [[NSMutableArray alloc]init];
     self.valueArray = [[NSMutableArray alloc]init];
     self.contForKeys = [self.dictionaryForRate allKeys];

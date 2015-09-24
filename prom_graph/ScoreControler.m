@@ -103,19 +103,6 @@
     }
 }
 
-//- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    NSString* contForName = self.nameOfUser;
-//    //NSMutableDictionary* contdict = []
-//    if (contForName == nil)
-//    {
-//        contForName = @"because it don't work";
-//    }
-//    if ([segue.identifier isEqualToString:@"goToLaeders"])
-//    {
-//        TableViewController *tabController = (TableViewController*)segue.destinationViewController;
-//        [tabController putData: self.strWithScore toDictionary: contForName];
-//    }
-//}
+
 
 @end

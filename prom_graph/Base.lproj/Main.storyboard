@@ -26,7 +26,6 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="putDataName:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jXC-dJ-ilp"/>
                                     <segue destination="AWx-nz-H0W" kind="show" identifier="goToGame" id="NNZ-J4-xea"/>
                                 </connections>
                             </button>
@@ -160,7 +159,6 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="saveResult:" destination="kNK-hs-pw2" eventType="touchUpInside" id="4rP-Go-l5k"/>
                                     <segue destination="0Wk-gl-GFs" kind="show" identifier="goToLaeders" id="Pcu-Q9-hre"/>
                                 </connections>
                             </button>
@@ -192,6 +190,7 @@
                                 <color key="thumbTintColor" red="0.40000000600000002" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
                                     <action selector="howSave:" destination="kNK-hs-pw2" eventType="valueChanged" id="yhs-qW-q3w"/>
+                                    <action selector="saveResult:" destination="kNK-hs-pw2" eventType="valueChanged" id="t0B-YE-6nd"/>
                                 </connections>
                             </switch>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Save result" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXo-PS-W8f">
@@ -327,7 +326,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="2zk-2R-uYd"/>
         <segue reference="fVY-eS-HSs"/>
+        <segue reference="Pcu-Q9-hre"/>
     </inferredMetricsTieBreakers>
 </document>

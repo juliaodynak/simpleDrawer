@@ -22,20 +22,10 @@
 {
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"5652.png"]]];
-        [self putName];
-    self.nameOfUser = self.userName.text;
     self.startButton.enabled = NO;
     
 }
-- (IBAction)putDataName:(id)sender
-{
-    self.nameOfUser = self.userName.text;
-}
 
--(void) putName
-{
-    self.nameOfUser = self.userName.text;
-}
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"goToGame"])
