@@ -11,8 +11,9 @@
 @interface TableViewController ()
 @property NSArray *tableData;
 @property NSMutableArray *keyArray;
+@property NSMutableArray *valueArray;
 @property NSArray *contForKeys;
-@property NSArray *valueArray;
+@property NSArray *contValueArray;
 @property (nonatomic, strong) NSString* scoreResult;
 @property (nonatomic, strong) NSString* nameKey;
 @property (nonatomic, strong) NSMutableDictionary* dictionaryForRate;
@@ -24,21 +25,23 @@
     [super viewDidLoad];
     self.dictionaryForRate = [[NSUserDefaults standardUserDefaults] objectForKey:@"leader"];
     self.keyArray = [[NSMutableArray alloc]init];
+    self.valueArray = [[NSMutableArray alloc]init];
     self.contForKeys = [self.dictionaryForRate allKeys];
     
-    self.valueArray = [[self.dictionaryForRate allValues] sortedArrayUsingComparator:^(id obj1, id obj2) {
+    self.contValueArray = [[self.dictionaryForRate allValues] sortedArrayUsingComparator:^(id obj1, id obj2) {
         if ([obj1 doubleValue] > [obj2 doubleValue])
             return (NSComparisonResult)NSOrderedAscending;
         if ([obj1 doubleValue] < [obj2 doubleValue])
             return (NSComparisonResult)NSOrderedDescending;
         return (NSComparisonResult)NSOrderedSame;
     }];
+    self.valueArray = [self.contValueArray mutableCopy];
     int i =0;
     while (self.keyArray.count != self.contForKeys.count)
     {
         for (NSString * key in self.contForKeys)
         {
-            if ([self.valueArray[i] isEqualToString:[self.dictionaryForRate valueForKey:key]])
+            if ([self.contValueArray[i] isEqualToString:[self.dictionaryForRate valueForKey:key]])
             {
                 self.keyArray[i] = key;
                 i++;
@@ -49,15 +52,6 @@
     
 
 }
-
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    NSString* gs =;
-//    
-//    
-//    
-//}
-
 
 - (void) putData:(NSString*)value toDictionary: (NSString*) key
 {
@@ -83,18 +77,42 @@
     
     return cell;
 }
-//- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return YES;
-//}
-//
-//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (editingStyle == UITableViewCellEditingStyleDelete) {
-//        //remove the deleted object from your data source.
-//        //If your data source is an NSMutableArray, do this
-//        //NSString* hghsd = self.nameKey[indexPath.row];
-//        [self.dictionaryForRate removeObjectForKey:[self.valueArray objectAtIndex:indexPath.row ]];
-//        [tableView reloadData]; // tell table to refresh now
-//    }
-//}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        NSInteger index = indexPath.row;
+        NSString *objectToDelete = [self.valueArray objectAtIndex:index];
+        
+        for (NSString * key in self.keyArray)
+        {
+            if ([objectToDelete isEqualToString:[self.dictionaryForRate valueForKey:key]])
+            {
+                [self.dictionaryForRate removeObjectForKey:key];
+                [[NSUserDefaults standardUserDefaults] setObject:self.dictionaryForRate forKey:@"leader"];
+                break;
+            }
+        }
+                
+        [self.keyArray removeObjectAtIndex:index];
+        [self.valueArray removeObjectAtIndex:index];
+        
+        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                         withRowAnimation:UITableViewRowAnimationFade];
+        
+        
+    }
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+        return UITableViewCellEditingStyleDelete;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
 
 @end
