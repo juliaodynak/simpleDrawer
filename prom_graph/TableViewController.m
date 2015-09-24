@@ -9,15 +9,12 @@
 #import "TableViewController.h"
 
 @interface TableViewController ()
-@property NSArray *tableData;
-@property NSMutableArray *keyArray;
-@property NSMutableArray *valueArray;
-@property NSArray *contForKeys;
-@property NSArray *contValueArray;
-@property (nonatomic, strong) NSString* scoreResult;
-@property (nonatomic, strong) NSString* nameKey;
+@property (nonatomic, strong) NSMutableArray *keyArray;
+@property (nonatomic, strong) NSMutableArray *valueArray;
+@property (nonatomic, strong) NSArray *contForKeys;
+@property (nonatomic, strong) NSArray *contValueArray;
 @property (nonatomic, strong) NSMutableDictionary* dictionaryForRate;
-@property NSDictionary* dictForUse;
+@property (nonatomic, strong) NSDictionary* dictForUse;
 @end
 
 @implementation TableViewController
@@ -51,15 +48,8 @@
             }
         }
     }
-    
-
 }
 
-- (void) putData:(NSString*)value toDictionary: (NSString*) key
-{
-    self.scoreResult = value;
-    self.nameKey = key;
-}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [self.keyArray count];
@@ -95,7 +85,7 @@
                 break;
             }
         }
-                
+        
         [self.keyArray removeObjectAtIndex:index];
         [self.valueArray removeObjectAtIndex:index];
         
@@ -108,7 +98,7 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-        return UITableViewCellEditingStyleDelete;
+    return UITableViewCellEditingStyleDelete;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath

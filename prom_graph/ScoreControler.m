@@ -25,13 +25,10 @@
     [self.navigationItem setHidesBackButton:YES];
     display.text = self.strWithScore;
     self.saveResultProp = false;
-    //self.strWithScore =@"";
-    // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void) putScoreToDisplay:(NSString *)scor :(NSString*) name
@@ -59,7 +56,6 @@
         }
         
         NSMutableDictionary *mDict = [result mutableCopy];
-        //[mDict removeObjectForKey:@"0.93"];
         
         if (!self.currentUser || self.currentUser.length == 0)
         {
@@ -83,8 +79,6 @@
         {
             [mDict setObject:self.strWithScore forKey:self.currentUser];
         }
-        
-        
         
         [[NSUserDefaults standardUserDefaults] setObject:mDict forKey:@"leader"];
     }

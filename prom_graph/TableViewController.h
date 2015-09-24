@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface TableViewController : UITableViewController
-- (void) putData:(NSString*)value toDictionary: (NSString*) key;
+
 
 @end

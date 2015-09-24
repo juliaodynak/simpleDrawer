@@ -28,11 +28,7 @@ static NSInteger const kNumberOfFigures = 10;
 @property (nonatomic, assign) NSTimeInterval startTime;
 @property (nonatomic, strong) NSString* currentUser;
 @property (nonatomic, assign) BOOL pauseTap;
-
 @property (nonatomic, weak) IBOutlet UILabel *scoreLabel;
-
-//@property (strong, nonatomic) IBOutlet UIBarButtonItem *pauseButton;
-
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, assign) NSTimeInterval timerWait;
 
@@ -58,10 +54,6 @@ static NSInteger const kNumberOfFigures = 10;
     panRecognizer.maximumNumberOfTouches = 1;
     [self.view addGestureRecognizer:panRecognizer];
     [self startGame];
-    
-//    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFire) userInfo:nil repeats:YES];
-//    self.timeToNew = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(placeFigure) userInfo:nil repeats:YES];
-    //self.pauseButton = [UIBarButtonItem initWithBarButtonSystemItem:UIBarButtonSystemItemPause target:self action:@selector(makePause:)];
 }
 
 -(void) startGame
@@ -82,13 +74,11 @@ static NSInteger const kNumberOfFigures = 10;
         [self.timer invalidate];
         [self.timeToNew invalidate];
         self.timerWait = CACurrentMediaTime();
-       // [self startGame];
     }
     else
     {
         self.pauseTap = NO;
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(timerFire) userInfo:nil repeats:YES];
-        self.timeToNew = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(placeFigure) userInfo:nil repeats:YES];
+        [self startGame];
         self.timerWait = CACurrentMediaTime() - self.timerWait;
         self.startTime = self.startTime + self.timerWait;
     }
@@ -99,8 +89,6 @@ static NSInteger const kNumberOfFigures = 10;
 {
     CGFloat viewHeight = self.view.frame.size.height;
     CGFloat viewWidth = self.view.frame.size.width;
-   // CACurrentMediaTime();
-    //self.score = CACurrentMediaTime();
     __weak typeof(MyCanvas) *weakView = self.contView;
     if (self.pauseTap == NO)
     {
@@ -108,7 +96,6 @@ static NSInteger const kNumberOfFigures = 10;
             
             for (MyCanvas* figure in self.figures)
             {
-                // [self timerVector:figure];
                 if (weakView == nil || (weakView && ![figure isEqual:weakView]))
                 {
                     CGPoint vector = figure.vector;
@@ -154,7 +141,7 @@ static NSInteger const kNumberOfFigures = 10;
             
         }];
     }
-
+    
     
     [self setScoreLabelTime];
 }
@@ -165,11 +152,8 @@ static NSInteger const kNumberOfFigures = 10;
     CGFloat diffY = ((float)rand() / (float)RAND_MAX) * distance - distance / 2.0f;
     
     return CGPointMake(diffX, diffY);
-
+    
 }
-
-
-
 
 - (void)handlePan:(UIPanGestureRecognizer*)paramsender
 {
@@ -223,8 +207,8 @@ static NSInteger const kNumberOfFigures = 10;
         [UIView animateWithDuration:0.1 animations:^{
             self.contView.transform = CGAffineTransformIdentity;
         } /*completion:^(BOOL finished) {
-            self.contView = nil;
-        }*/];
+           self.contView = nil;
+           }*/];
         
         self.contView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
         self.contView.layer.shadowOpacity = 0.0f;
@@ -241,7 +225,7 @@ static NSInteger const kNumberOfFigures = 10;
                 
                 CGPoint center = self.contView.center;
                 CGPoint currentFigureCenter = self.viewToCompare.center;
-
+                
                 CGFloat xDist = (center.x - currentFigureCenter.x);
                 CGFloat yDist = (center.y - currentFigureCenter.y);
                 CGFloat currentDistance = sqrt((xDist * xDist) + (yDist * yDist));
@@ -252,12 +236,12 @@ static NSInteger const kNumberOfFigures = 10;
                 }
             }
         }
-
+        
         if ([self.contView selectedType] == [self.chosenView selectedType]&& self.chosenView!=nil && self.contView!=nil)
         {
             [self.contView removeFromSuperview];
             [self.chosenView removeFromSuperview];
-
+            
             for(int j = 0;j < self.figures.count; j++)
             {
                 if ([self.figures[j] isEqual: self.contView] || [self.figures[j] isEqual: self.chosenView])
@@ -266,7 +250,7 @@ static NSInteger const kNumberOfFigures = 10;
                 }
             }
             [self makeNill];
-    
+            
         }
         
         else if ([self.contView selectedType] != [self.chosenView selectedType] && self.chosenView!=nil && self.contView!=nil)
@@ -352,7 +336,7 @@ static NSInteger const kNumberOfFigures = 10;
 
 - (void)placeFigure
 {
-
+    
     NSInteger type = ((float)rand() / (float)RAND_MAX) * MCFigureTypeCount;
     NSInteger colorStroke = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
     NSInteger colorFill = ((float)rand() / (float)RAND_MAX) * MCColorChoiseCount;
