@@ -49,6 +49,7 @@ static NSInteger const kNumberOfFigures = 10;
     self.scoreString = @"";
     self.pauseTap = NO;
     
+    [self.view setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"208330906.png"]]];
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
     panRecognizer.minimumNumberOfTouches = 1;
     panRecognizer.maximumNumberOfTouches = 1;
@@ -66,11 +67,13 @@ static NSInteger const kNumberOfFigures = 10;
     
 }
 
-- (IBAction)wer:(id)sender
+- (IBAction)wer:(UIButton*)sender
 {
     if (self.pauseTap == NO)
     {
         self.pauseTap = YES;
+        //sender.title = @"Play";
+        [sender setTitle:@"Play" forState:UIControlStateNormal];
         [self.timer invalidate];
         [self.timeToNew invalidate];
         self.timerWait = CACurrentMediaTime();
@@ -78,6 +81,7 @@ static NSInteger const kNumberOfFigures = 10;
     else
     {
         self.pauseTap = NO;
+        [sender setTitle:@"Pause" forState:UIControlStateNormal];
         [self startGame];
         self.timerWait = CACurrentMediaTime() - self.timerWait;
         self.startTime = self.startTime + self.timerWait;
