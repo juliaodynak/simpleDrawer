@@ -20,7 +20,7 @@
 		25A561F11B9C760C000A5EBC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 25A561EF1B9C760C000A5EBC /* LaunchScreen.xib */; };
 		25A561FD1B9C760C000A5EBC /* prom_graphTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A561FC1B9C760C000A5EBC /* prom_graphTests.m */; };
 		25A5620B1B9C8073000A5EBC /* MyCanvas.m in Sources */ = {isa = PBXBuildFile; fileRef = 25A5620A1B9C8073000A5EBC /* MyCanvas.m */; };
-		8464F6061BB53C5300F81F1B /* 208330906.png in Resources */ = {isa = PBXBuildFile; fileRef = 8464F6051BB53C5300F81F1B /* 208330906.png */; };
+		846388051BB8458200CFE150 /* bluesky.png in Resources */ = {isa = PBXBuildFile; fileRef = 846388041BB8458200CFE150 /* bluesky.png */; };
 		84A4E11D1BB43B5300807F9D /* logo_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 84A4E11C1BB43B5300807F9D /* logo_01.png */; };
 /* End PBXBuildFile section */
 
@@ -58,7 +58,7 @@
 		25A561FC1B9C760C000A5EBC /* prom_graphTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = prom_graphTests.m; sourceTree = "<group>"; };
 		25A562091B9C8073000A5EBC /* MyCanvas.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCanvas.h; sourceTree = "<group>"; };
 		25A5620A1B9C8073000A5EBC /* MyCanvas.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCanvas.m; sourceTree = "<group>"; };
-		8464F6051BB53C5300F81F1B /* 208330906.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 208330906.png; sourceTree = "<group>"; };
+		846388041BB8458200CFE150 /* bluesky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bluesky.png; sourceTree = "<group>"; };
 		84A4E11C1BB43B5300807F9D /* logo_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo_01.png; path = ../../../Desktop/logo_01.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,8 +118,8 @@
 				25A561EF1B9C760C000A5EBC /* LaunchScreen.xib */,
 				25A561E41B9C760C000A5EBC /* prom_graph.xcdatamodeld */,
 				25A561DD1B9C760C000A5EBC /* Supporting Files */,
-				8464F6051BB53C5300F81F1B /* 208330906.png */,
 				25913DCA1BB13CD70031B4FF /* 5652.png */,
+				846388041BB8458200CFE150 /* bluesky.png */,
 				84A4E11C1BB43B5300807F9D /* logo_01.png */,
 			);
 			path = prom_graph;
@@ -231,8 +231,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				846388051BB8458200CFE150 /* bluesky.png in Resources */,
 				84A4E11D1BB43B5300807F9D /* logo_01.png in Resources */,
-				8464F6061BB53C5300F81F1B /* 208330906.png in Resources */,
 				25A561EC1B9C760C000A5EBC /* Main.storyboard in Resources */,
 				25913DCB1BB13CD70031B4FF /* 5652.png in Resources */,
 				25A561F11B9C760C000A5EBC /* LaunchScreen.xib in Resources */,
@@ -386,7 +386,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = prom_graph/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -398,7 +398,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = prom_graph/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
