@@ -3,7 +3,6 @@
 //  prom_graph
 //
 //  Created by adminaccount on 9/6/15.
-//  Copyright (c) 2015 pelekh. All rights reserved.
 //
 
 #import "MyCanvas.h"
@@ -127,34 +126,34 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     switch (_colorOfFigureStroke) {
         case 0:
-            CGContextSetStrokeColorWithColor(context, [[UIColor blueColor] CGColor]);
+            CGContextSetStrokeColorWithColor(context, [[UIColor colorWithRed:0.24 green:0.52 blue:0.78 alpha:1.0] CGColor]);
             break;
         case 1:
-            CGContextSetStrokeColorWithColor(context, [[UIColor yellowColor] CGColor]);
+            CGContextSetStrokeColorWithColor(context, [[UIColor colorWithRed:1.00 green:0.90 blue:0.60 alpha:1.0] CGColor]);
             break;
         case 2:
-            CGContextSetStrokeColorWithColor(context, [[UIColor greenColor] CGColor]);
+            CGContextSetStrokeColorWithColor(context, [[UIColor colorWithRed:0.71 green:0.84 blue:0.66 alpha:1.0] CGColor]);
             break;
         case 3:
-            CGContextSetStrokeColorWithColor(context, [[UIColor redColor] CGColor]);
+            CGContextSetStrokeColorWithColor(context, [[UIColor colorWithRed:0.88 green:0.40 blue:0.40 alpha:1.0] CGColor]);
             break;
         case 4:
             CGContextSetStrokeColorWithColor(context, [[UIColor blackColor] CGColor]);
             break;
         case 5:
-            CGContextSetStrokeColorWithColor(context, [[UIColor brownColor] CGColor]);
+            CGContextSetStrokeColorWithColor(context, [[UIColor colorWithRed:0.74 green:0.60 blue:0.18 alpha:1.0] CGColor]);
             break;
         case 6:
-            CGContextSetStrokeColorWithColor(context, [[UIColor purpleColor] CGColor]);
+            CGContextSetStrokeColorWithColor(context, [[UIColor colorWithRed:0.71 green:0.65 blue:0.84 alpha:1.0] CGColor]);
             break;
         case 7:
-            CGContextSetStrokeColorWithColor(context, [[UIColor grayColor] CGColor]);
+            CGContextSetStrokeColorWithColor(context, [[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0] CGColor]);
             break;
         case 8:
-            CGContextSetStrokeColorWithColor(context, [[UIColor orangeColor] CGColor]);
+            CGContextSetStrokeColorWithColor(context, [[UIColor colorWithRed:0.96 green:0.70 blue:0.42 alpha:1.0] CGColor]);
             break;
         case 9:
-            CGContextSetStrokeColorWithColor(context, [[UIColor cyanColor] CGColor]);
+            CGContextSetStrokeColorWithColor(context, [[UIColor colorWithRed:0.64 green:0.98 blue:0.98 alpha:1.0] CGColor]);
             break;
         case 10:
             CGContextSetStrokeColorWithColor(context, [[UIColor clearColor] CGColor]);
@@ -171,34 +170,34 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     switch (_colorOfFigureFill) {
         case 0:
-            CGContextSetFillColorWithColor(context, [[UIColor blueColor] CGColor]);
+            CGContextSetFillColorWithColor(context, [[UIColor colorWithRed:0.24 green:0.52 blue:0.78 alpha:1.0] CGColor]);
             break;
         case 1:
-            CGContextSetFillColorWithColor(context, [[UIColor yellowColor] CGColor]);
+            CGContextSetFillColorWithColor(context, [[UIColor colorWithRed:1.00 green:0.90 blue:0.60 alpha:1.0] CGColor]);
             break;
         case 2:
-            CGContextSetFillColorWithColor(context, [[UIColor greenColor] CGColor]);
+            CGContextSetFillColorWithColor(context, [[UIColor colorWithRed:0.71 green:0.84 blue:0.66 alpha:1.0] CGColor]);
             break;
         case 3:
-            CGContextSetFillColorWithColor(context, [[UIColor redColor] CGColor]);
+            CGContextSetFillColorWithColor(context, [[UIColor colorWithRed:0.88 green:0.40 blue:0.40 alpha:1.0] CGColor]);
             break;
         case 4:
             CGContextSetFillColorWithColor(context, [[UIColor blackColor] CGColor]);
             break;
         case 5:
-            CGContextSetFillColorWithColor(context, [[UIColor brownColor] CGColor]);
+            CGContextSetFillColorWithColor(context, [[UIColor colorWithRed:0.74 green:0.60 blue:0.18 alpha:1.0] CGColor]);
             break;
         case 6:
-            CGContextSetFillColorWithColor(context, [[UIColor purpleColor] CGColor]);
+            CGContextSetFillColorWithColor(context, [[UIColor colorWithRed:0.71 green:0.65 blue:0.84 alpha:1.0] CGColor]);
             break;
         case 7:
-            CGContextSetFillColorWithColor(context, [[UIColor grayColor] CGColor]);
+            CGContextSetFillColorWithColor(context, [[UIColor colorWithRed:0.85 green:0.85 blue:0.85 alpha:1.0] CGColor]);
             break;
         case 8:
-            CGContextSetFillColorWithColor(context, [[UIColor orangeColor] CGColor]);
+            CGContextSetFillColorWithColor(context, [[UIColor colorWithRed:0.96 green:0.70 blue:0.42 alpha:1.0] CGColor]);
             break;
         case 9:
-            CGContextSetFillColorWithColor(context, [[UIColor cyanColor] CGColor]);
+            CGContextSetFillColorWithColor(context, [[UIColor colorWithRed:0.64 green:0.98 blue:0.98 alpha:1.0] CGColor]);
             break;
         case 10:
             CGContextSetFillColorWithColor(context, [[UIColor clearColor] CGColor]);
